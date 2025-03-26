@@ -1,0 +1,32 @@
+"""<<<E.g. Finds EXAMPLE_PROBLEMS. A brief description of the problem you're solving might be a 
+good idea to include here, as it will go in to the prompt>>>
+"""
+import itertools ####<<<IF NECESSARY. DO NOT IMPORT ANY POTENTIALLY DANGEROUS PACKAGES HERE>>>>. 
+import numpy as np
+import funsearch
+
+@funsearch.run #####<<<< THIS IS THE ENTRY POINT for funsearchy, and returns the score!>>>######
+def evaluate(n: int) -> int:
+    """Returns the size of an `n`-dimensional EXAMPLE_PROBLEM"""
+    import pickle #### <<<<IF NECESSARY. IMPORT ANY POTENTIALLY DANGEROUS IMPORTS HERE, SO THAT THE EVOLVING FUNCTION HAS NO ACCESS TO THEM>>>>>
+    example_output = solve(n)
+    return len(example_output)#### <<<<<THIS OUTPUT BECOMES THE SCORE>>>>>>
+
+#### If you define additonal functions, ensure they have a docstring! This is to make the parser happy. 
+#### Again, you will need to import any necessary packages inside their namespace.
+
+def solve(n: int) -> np.ndarray:
+    import pickle #### <<<<IF NECESSARY. IMPORT ANY POTENTIALLY DANGEROUS IMPORTS HERE, SO THAT THE EVOLVING FUNCTION HAS NO ACCESS TO THEM>>>>>
+    """Returns an EXAMPLE in `n` dimensions."""
+    ####<<<AT SOME POINT YOU SHOULD CALL "function_to_evolve(<whatever type you've specified below>)">>>
+    pass  # TODO: Implement the solve function
+
+@funsearch.evolve ####<<<< THIS TELLS FUNSEARCH WHAT TO EVOLVE>>>######
+def function_to_evolve(el: tuple[int, ...], n: int, anything_else_with_type_hints: str) -> float: ### <<<MODIFY THE TYPE SIGNATURE IF NECESSARY. Any type signature is supported, although it should all be on one line.
+    #### THE EVO algorithm doesn't care what the type sig is, as it simply calls evaluate() to get the score>>>
+    #### The function can be called anything you like. If you use the default system prompt, it will be automatically updated to include the new function name.
+    """If it's a priority function, returns the priority with which we want to add `element` to the EXAMPLE_PROBLEM, as a floating point number. 
+    <<BRIEF DESCRIPTION OF THE SPECIFIC PROBLEM YOU'RE SOLVING IS A GOOD IDEA HERE>>>
+    el is a tuple of length n with values 0-2.
+    """
+    pass  # TODO: Implement the priority function
