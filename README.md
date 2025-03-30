@@ -46,7 +46,7 @@ cvrp-funsearch/
 
 `Other_algorithms/`: Contains Jupyter Notebooks that implement various other algorithms for solving CVRP, used for comparison and testing the performance of different algorithms.
 
-`cvrp/`: Contains core CVRP-related code modules.
+`cvrp/`: Contains core CVRP-related & **Funsearch-related** code modules.
 
 `data/`: Contains datasets related to the problem.
 
