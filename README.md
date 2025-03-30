@@ -14,47 +14,30 @@ The approach combines deep reasoning through chain of thought to automate progra
 cvrp-funsearch/
 
 ```
-├── LLM.ipynb
+├── LLM-test
+│   └── deepseek
 ├── Other_algorithms
-│   ├── 0_0_Ortools_.ipynb
-│   ├── 0_1_k-opt.ipynb
-│   ├── 0_2_Large_Neighborhood_Search_LNS.ipynb
-│   ├── 0_3_Tabu_Search.ipynb
-│   ├── 0_4_Simulated_Annealing.ipynb
-│   └── gif.ipynb
-├── cvrp
-│   ├── code_manipulation.py
-│   ├── config.py
-│   ├── cvrp_funsearch.py
-│   ├── evaluator.py
-│   ├── evaluator_accelerate.py
-│   ├── programs_database.py
-│   └── sampler.py
-├── data
-│   ├── cvrp
-│   └── tsp
-├── ortools
-│   ├── cvrp
-│   ├── cvrp-1.ipynb
-│   └── cvrp.ipynb
-├── others-cvrp.ipynb
-├── requirements.txt
-└── test_spec.txt
+│   ├── fig
+│   └── ortools
+└── cvrp
+    ├── data
+    │   ├── cvrp
+    │   │   ├── large
+    │   │   ├── medium
+    │   │   └── small
+    │   └── tsp
+    ├── implementation
+    ├── new_data
+    └── spec
 ```
 
-`LLM.ipynb`: This Jupyter Notebook is likely used for experiments or demonstrations related to Large Language Models (LLM), showing how LLM can generate and optimize code for solving the CVRP problem.
+Some important directories:
 
-`Other_algorithms/`: Contains Jupyter Notebooks that implement various other algorithms for solving CVRP, used for comparison and testing the performance of different algorithms.
+- `LLM-test/deepseek`: Using DeepSeek API to do some tests.
 
-`cvrp/`: Contains core CVRP-related & **Funsearch-related** code modules.
+- `Other_algorithms/fig/ortools`: Using ortools(Google) to do tests.
 
-`data/`: Contains datasets related to the problem.
-
-`ortools/`: Contains code and Jupyter Notebooks that use Google OR-Tools to solve CVRP.
-
-`others-cvrp.ipynb`: A Jupyter Notebook that likely consolidates or compares the implementations and results of other CVRP solving methods.
-
-`test_spec.txt`: Likely contains specifications or descriptions of test cases used to validate the correctness of the algorithms and modules in the project.
+- `cvrp/`: Related to solving CVRP, like data(small, medium, large), solution, code, specification.
 
 ## Design
 
