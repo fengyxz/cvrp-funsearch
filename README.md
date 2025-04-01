@@ -146,10 +146,10 @@ graph:
 
 ## Datasets
 
-We choose small & medium sets as SetA.
+We choose small & medium sets from SetA.
 
 <img src="https://github.com/user-attachments/assets/c94f8976-ff90-4f6a-b4c1-8ea1761a6172" width="500px">
 
-We choose the large set as SetX.
+We choose the large set from SetX.
 
 <img src="https://github.com/user-attachments/assets/9915d28d-a4e2-4e26-9f7e-7702784f5996" width="500px">
