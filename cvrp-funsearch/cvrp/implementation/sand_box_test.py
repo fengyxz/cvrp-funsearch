@@ -1,3 +1,6 @@
+import os
+import re
+import textwrap
 import vrplib
 import sand_box
 def read_all_instances(root_folder, ending='.vrp'):

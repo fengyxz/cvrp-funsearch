@@ -1,11 +1,10 @@
 import multiprocessing
-import evaluator
 import logging
 
 
 
 # 定义 Sandbox 类，用于安全执行 LLM 生成的代码
-class Sandbox(evaluator.Sandbox):
+class Sandbox():
     """
     Sandbox（沙盒）用于安全执行 LLM 生成的代码，并返回计算结果。
 
@@ -59,11 +58,10 @@ class Sandbox(evaluator.Sandbox):
                 process.join()
                 return None, False
             if not result_queue.empty():
-                print('suc')
                 results = result_queue.get_nowait()  # 获取计算结果
-                print(results)
-                total_distance, is_success = 0,True
-                return total_distance, is_success  # 返回目标值和成功标志
+                total_distance, is_success, routes = results
+                print(total_distance,is_success,routes)
+                return total_distance, is_success, routes  # 返回目标值和成功标志
             return None, False
         except Exception:
             logging.error("代码执行出错！",Exception.with_traceback)

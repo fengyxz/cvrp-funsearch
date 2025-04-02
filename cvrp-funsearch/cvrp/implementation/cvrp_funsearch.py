@@ -1,6 +1,5 @@
 import multiprocessing
 import evaluator
-import evaluator_accelerate
 import textwrap
 import logging
 
