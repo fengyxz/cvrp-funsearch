@@ -38,11 +38,21 @@ def solve(data: dict) -> List[List[int]]:
 
 # ========== 初始解构建阶段 ==========
 @funsearch.evolve
+@funsearch.evolve
 def construction_heuristic(ctx: ConstructionContext) -> float:
-    #进化初始解构建策略（可调整权重)
-    # part1: you should change and modify this function
-    return (1 * ctx.distance )
-
+    # Modified heuristic considering both distance and capacity utilization
+    distance_weight = 1.0
+    utilization_weight = 0.5  # Encourages better capacity utilization
+    
+    # Normalized distance (0-1 range)
+    normalized_dist = ctx.distance / np.max(ctx.distance_matrix)
+    
+    # Capacity utilization ratio (0-1 range)
+    utilization_ratio = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_dist 
+            - utilization_weight * utilization_ratio)
+            
 def greedy_initial_solution(data: dict) -> List[List[int]]:
     #基于进化权重的启发式初始解生成
     routes = []

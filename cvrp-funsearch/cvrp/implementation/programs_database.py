@@ -34,7 +34,6 @@ import config as config_lib
 Signature = Tuple[float, ...]
 ScoresPerTest = Mapping[Any, float]
 
-
 def _softmax(logits: np.ndarray, temperature: float) -> np.ndarray:
     """Returns the tempered softmax of 1D finite `logits`."""
     if not np.all(np.isfinite(logits)):
