@@ -25,11 +25,10 @@ class Sandbox():
             self,
             program: str,
             function_to_run: str,  # 需要运行的函数名
-            inputs: any,  # 输入数据集
-            test_input: str,  # 当前测试实例
+            input: any,  # 输入数据集
             timeout_seconds: int,  # 允许执行的最长时间（超时即失败）
             **kwargs  # 额外参数
-    ) -> tuple[any, bool]:
+    ) -> tuple[bool, float]:
         """
         运行 `function_to_run(test_input)` 并返回结果。
         若代码执行失败（如超时、错误或不符合 CVRP 约束），则返回 (None, False)。
@@ -41,7 +40,7 @@ class Sandbox():
         :return: (score, success)，如果执行成功，则返回计算得分和 True，否则返回 (None, False)。
         """
 
-        dataset = inputs[test_input]  # 提取当前测试数据
+        dataset = input  # 提取当前测试数据
         try:
             result_queue = multiprocessing.Queue()  # 用于存储执行结果
             process = multiprocessing.Process(
@@ -56,16 +55,14 @@ class Sandbox():
                 # 若超时，则终止进程并返回非法解
                 process.terminate()
                 process.join()
-                return None, False
+                return None
             if not result_queue.empty():
                 results = result_queue.get_nowait()  # 获取计算结果
-                total_distance, is_success, routes = results
-                print(total_distance,is_success,routes)
-                return total_distance, is_success, routes  # 返回目标值和成功标志
-            return None, False
+                return results
+            return None
         except Exception:
             logging.error("代码执行出错！",Exception.with_traceback)
-            return None, False  # 代码执行出错
+            return None  # 代码执行出错
 
     def _compile_and_run_function(self, program, function_to_run, dataset, result_queue):
         """

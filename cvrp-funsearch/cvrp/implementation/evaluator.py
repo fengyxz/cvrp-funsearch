@@ -15,13 +15,13 @@ def md_to_source_code(md_text):
         return match.group(1).strip()
     return None
 
-def _trim_function_body(generated_code: str, generated_func_name: str) -> str:
+def _trim_function_body(generated_code: str) -> str:
     """
     解析 LLM 生成的代码，确保只提取函数体。
     """
     code=md_to_source_code(generated_code)
     try:
-        module = ast.parse(code)  # 解析 AST
+        # print(code)
         return "\n".join(code.split("\n"))  # 仅保留函数体
     except():
         KeyError
@@ -63,37 +63,37 @@ def replace_function_by_name(source_code, old_function_name, new_function_str):
 
 # 代码评估器
 class Evaluator:
-    def __init__(self, database, template, function_to_evolve, function_to_run, inputs,timeout_seconds=30,
+    def __init__(self, template, function_to_evolve, function_to_run, input,timeout_seconds=30,
                 ):
         """
         评估 LLM 生成的代码。
-        :param database: 代码评估结果数据库
         :param template: 代码模板
         :param function_to_evolve: 目标优化的函数
         :param function_to_run: 要运行的函数
-        :param inputs: 测试输入数据
+        :param input: 测试输入数据
         :param timeout_seconds: 代码运行超时时间
         :param sandbox_class: 沙盒类（用于安全执行代码）
         """
-        self._database = database
         self._template = template
         self._function_to_evolve = function_to_evolve
         self._function_to_run = function_to_run
-        self._inputs = inputs
+        self._input = input
         self._timeout_seconds = timeout_seconds
-        self._sandbox = sand_box.Sandbox()
 
-    def analyse(self, sample,run_func, version_generated):
+    def analyse(self, sample):
         """
         评估 LLM 生成的代码，并记录结果。
         """
-        new_code = response_to_code(sample, version_generated, self._template, self._function_to_evolve)
+        sandbox = sand_box.Sandbox()
+        new_code = response_to_code(sample,self._template, self._function_to_evolve)
         
         scores_per_test = {}
         runs_ok_per_test = {}
 
-        for current_input in self._inputs:
-            distance, is_success = self.sand_box.run(program=new_code,function_to_run=run_func,inputs=self._inputs,test_input=current_input,timeout_seconds=500)
-            scores_per_test[str(current_input)] = distance
-            runs_ok_per_test[str(current_input)] = is_success
+        is_success, distance =sandbox.run(program=new_code,function_to_run=self._function_to_run,input=self._input.data,timeout_seconds=500)
+        scores_per_test[str(self._input.name)] = distance
+        runs_ok_per_test[str(self._input.name)] = is_success
+        
+        print('score',scores_per_test)
+        print('run',runs_ok_per_test)
 
