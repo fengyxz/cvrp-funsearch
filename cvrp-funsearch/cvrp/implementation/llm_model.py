@@ -40,7 +40,7 @@ class GPTModel(BaseLLMModel):
                 ],
                 stream=False
             )
-            print(response.choices[0].message.content)
+            return response.choices[0].message.content
         except Exception as e:
             print(f"Error calling GPT: {e}")
             return None
@@ -72,7 +72,6 @@ class DsModel(BaseLLMModel):
                 ],
                 stream=False
             )
-            print(response.choices[0].message.content)
             return response.choices[0].message.content
         except Exception as e:
             print(f"Error calling Deepseek: {e}")

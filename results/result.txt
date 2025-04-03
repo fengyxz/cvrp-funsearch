@@ -1,0 +1,23 @@
+Here's the improved `construction_heuristic` function that considers both distance and vehicle load utilization:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combined score considering both distance and vehicle utilization
+    distance_weight = 0.7
+    utilization_weight = 0.3
+    
+    normalized_distance = ctx.distance / np.max(ctx.locations) if np.max(ctx.locations) > 0 else 0
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_distance) - (utilization_weight * utilization)
+```
+
+This implementation:
+1. Uses a weighted combination of distance and vehicle utilization
+2. Normalizes the distance by dividing by maximum location value
+3. Encourages better vehicle capacity utilization
+4. Returns a score where lower values are better (minimization problem)
+5. Balances between minimizing distance and maximizing vehicle utilization
+score {'A-n32-k5': 1065.1870862702688}
+run {'A-n32-k5': True}

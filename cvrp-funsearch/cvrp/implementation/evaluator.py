@@ -21,7 +21,6 @@ def _trim_function_body(generated_code: str) -> str:
     """
     code=md_to_source_code(generated_code)
     try:
-        # print(code)
         return "\n".join(code.split("\n"))  # 仅保留函数体
     except():
         KeyError
@@ -40,6 +39,7 @@ def response_to_code(generated_response:str, template:str, function_to_evolve:st
 
 def replace_function_by_name(source_code, old_function_name, new_function_str):
     # 解析源代码为抽象语法树
+    print(source_code)
     tree = ast.parse(source_code)
     new_function_ast =  ast.parse(new_function_str)
     # 定义一个访问者类，用于遍历抽象语法树
@@ -90,7 +90,7 @@ class Evaluator:
         scores_per_test = {}
         runs_ok_per_test = {}
 
-        is_success, distance =sandbox.run(program=new_code,function_to_run=self._function_to_run,input=self._input.data,timeout_seconds=500)
+        is_success, distance, route = sandbox.run(program=new_code,function_to_run=self._function_to_run,input=self._input.data,timeout_seconds=500)
         scores_per_test[str(self._input.name)] = distance
         runs_ok_per_test[str(self._input.name)] = is_success
         

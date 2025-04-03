@@ -28,7 +28,7 @@ class Sandbox():
             input: any,  # 输入数据集
             timeout_seconds: int,  # 允许执行的最长时间（超时即失败）
             **kwargs  # 额外参数
-    ) -> tuple[bool, float]:
+    ) -> tuple[bool, float, any]:
         """
         运行 `function_to_run(test_input)` 并返回结果。
         若代码执行失败（如超时、错误或不符合 CVRP 约束），则返回 (None, False)。
