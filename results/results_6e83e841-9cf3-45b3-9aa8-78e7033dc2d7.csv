@@ -1,0 +1,11 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"```python
+def construction_heuristic():
+    num_ants = 50
+    num_iterations = 100
+    alpha = 1.0
+    beta = 5.0
+    rho = 0.5
+    Q = 100
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",False,N/A,1.8295810222625732,[],2025-04-11 00:31:36

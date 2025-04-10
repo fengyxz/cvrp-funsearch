@@ -84,11 +84,18 @@ class LLM:
     # define the prompt pool
     self._model = model
     self._samples_per_prompt = samples_per_prompt
-
+    self._answers = []
   def _draw_sample(self, prompt: str) -> str:
     """Returns a predicted continuation of `prompt`."""
     return self._model.call(prompt)
     
   def draw_samples(self, prompt: str) -> Collection[str]:
     """Returns multiple predicted continuations of `prompt`."""
-    return [self._draw_sample(prompt) for _ in range(self._samples_per_prompt)]
+
+    for _ in range(self._samples_per_prompt):
+        pre_answers_str = "Please avoid repeating:\n" + "\n".join(self._answers)
+        response = self._model.call(prompt+pre_answers_str)
+        self._answers.append(response)
+    return self._answers
+
+

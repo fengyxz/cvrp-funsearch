@@ -1,0 +1,15 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"```python
+@funsearch.evolve
+def construction_heuristic(context: ConstructionContext) -> float:
+    """"""Improved construction heuristic for CVRP using distance and capacity ratios.""""""
+    # Calculate distance ratio (closer is better)
+    dist_ratio = context.distance / context.distance_matrix[context.depot][context.candidate]
+    
+    # Calculate capacity ratio (more remaining capacity is better)
+    remaining_capacity = context.vehicle_capacity - context.vehicle_load
+    cap_ratio = remaining_capacity / context.demand
+    
+    # Combined score (lower is better)
+    return dist_ratio * (1 / cap_ratio)
+```",False,N/A,1.8785500526428223,[],2025-04-10 23:33:29

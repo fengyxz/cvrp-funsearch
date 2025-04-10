@@ -84,12 +84,43 @@ def greedy_initial_solution(data: dict) -> List[List[int]]:
     return routes
 
 # ========== 局部优化阶段 ==========
-@funsearch.evolve
-def local_search_optimization(data: dict, routes: List[List[int]]) -> List[List[int]]:
-    optimized = routes
+def local_search_optimization(data: dict, routes: list[list[int]]) -> list[list[int]]:
+    optimized = []
+
+    for route in routes:
+        if len(route) <= 2:
+            optimized.append(route)
+            continue
+
+        def calculate_route_distance(r):
+            return sum(data['distance_matrix'][i][j] for i, j in zip(r[:-1], r[1:]))
+
+        n = len(route)
+        best_route = route.copy()
+        best_distance = calculate_route_distance(best_route)
+        improved = True
+
+        while improved:
+            improved = False
+            for i in range(1, n - 2):  # depot 不动
+                for j in range(i + 1, n - 1):
+                    a, b = best_route[i - 1], best_route[i]
+                    c, d = best_route[j], best_route[j + 1]
+
+                    current_cost = data['distance_matrix'][a][b] + data['distance_matrix'][c][d]
+                    new_cost = data['distance_matrix'][a][c] + data['distance_matrix'][b][d]
+
+                    if new_cost < current_cost:
+                        best_route[i:j + 1] = reversed(best_route[i:j + 1])
+                        best_distance += new_cost - current_cost
+                        improved = True
+
+        optimized.append(best_route)
+
     return optimized
+
 
 @funsearch.run
 def evaluate(data):
     routes = solve(data)
-    return routes, data
+    return routes

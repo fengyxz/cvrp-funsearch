@@ -40,7 +40,9 @@ def response_to_code(generated_response:str, template:str, function_to_evolve:st
 
 def replace_function_by_name(source_code, old_function_name, new_function_str):
     # 解析源代码为抽象语法树
-    print(source_code)
+    # print(source_code)
+    print(repr(new_function_str))
+
     tree = ast.parse(source_code)
     new_function_ast =  ast.parse(new_function_str)
     # 定义一个访问者类，用于遍历抽象语法树
@@ -83,32 +85,43 @@ class Evaluator:
 
     def analyse(self, sample):
         """
-        评估 LLM 生成的代码，并记录结果。
+        评估由 LLM 生成的代码解决方案，检查其在给定输入下是否生成有效的路径方案，并记录运行时间。
+
+        参数:
+            sample (Any): 用于生成代码的样本输入。
+
+        返回:
+            Tuple[
+                bool,              # 是否评估成功（True 表示成功，False 表示失败）
+                float | str,       # 成功时为总距离，失败时为空字符串
+                List[List[int]],   # 成功时为所有车辆的路径，失败时为空列表
+                float              # 运行时间（秒）
+            ]
         """
         start_time = time.time()  # 记录开始时间
         sandbox = sand_box.Sandbox()
-        data = self._input
+        data = self._input.data
 
-        new_code = response_to_code(sample,self._template, self._function_to_evolve)
-        
-        scores_per_test = {}
-        runs_ok_per_test = {}
+        new_code = response_to_code(sample, self._template, self._function_to_evolve)
 
-        # 获得生成的route
-        routes = sandbox.run(program=new_code,function_to_run=self._function_to_run,input=data,timeout_seconds=self._timeout_seconds)
+        routes = sandbox.run(
+            program=new_code,
+            function_to_run=self._function_to_run,
+            input=data,
+            timeout_seconds=self._timeout_seconds
+        )
+        print(routes)
         total_distance = 0.0
         distance_matrix = data['distance_matrix']
         depot = data['depot']
         demand = data['demand']
         capacity = data['vehicle_capacity']
         all_nodes = set(range(len(demand)))
-        all_nodes.remove(depot)  # 移除仓库点，因为仓库点会多次出现
+        all_nodes.remove(depot)
         visited_nodes = set()
-        
-         #评估解决方案并返回状态和总行驶距离
+
         try:
             for i, route in enumerate(routes):
-                # 起点和终点都要是depot
                 if len(route) < 2 or route[0] != depot or route[-1] != depot:
                     raise ValueError(f"Invalid route {i}: {route} - must start and end at depot")
 
@@ -118,29 +131,29 @@ class Evaluator:
                     from_node = route[j]
                     to_node = route[j + 1]
                     route_distance += distance_matrix[from_node][to_node]
-                    if to_node != depot:  # depot仓库需求为0
+                    if to_node != depot:
                         route_demand += demand[to_node]
-                # 是否超出容量
+                        visited_nodes.add(to_node)
                 if route_demand > capacity:
                     raise ValueError(f"Route {i} overloaded: {route_demand}/{capacity}")
                 total_distance += route_distance
                 print(f"Vehicle {i} route: {route}")
-            
-            # 检查是否所有点都被访问
+
             if visited_nodes != all_nodes:
                 missing_nodes = all_nodes - visited_nodes
                 raise ValueError(f"Not all nodes are visited. Missing nodes: {missing_nodes}")
-            end_time = time.time()  # 记录结束时间
-            run_time = end_time - start_time  # 计算运行时间
-            print(f"Total  Distance: {route_distance:.2f}, Load: {route_demand}/{capacity}\n")
-            print(f"Vehicles used: {sum(1 for r in routes if len(r) > 2)}/{len(routes)}")  # 排除空路线
-            print(f"Run time: {run_time:.4f} seconds")  # 打印运行时间
-            return True, total_distance, route, run_time
+
+            end_time = time.time()
+            run_time = end_time - start_time
+            print(f"Total Distance: {total_distance:.2f}")
+            print(f"Vehicles used: {sum(1 for r in routes if len(r) > 2)}/{len(routes)}")
+            print(f"Run time: {run_time:.4f} seconds")
+            return True, total_distance, routes, run_time
+
         except ValueError as e:
-            end_time = time.time()  # 记录结束时间
-            run_time = end_time - start_time  # 计算运行时间
+            end_time = time.time()
+            run_time = end_time - start_time
             print(f"Evaluation failed: {e}")
-            print(f"Run time: {run_time:.4f} seconds")  # 打印运行时间
+            print(f"Run time: {run_time:.4f} seconds")
             return False, "", [], run_time
-   
 

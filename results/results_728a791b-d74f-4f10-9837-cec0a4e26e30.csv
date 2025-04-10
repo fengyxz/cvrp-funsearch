@@ -1,0 +1,21 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"```python
+@funsearch.evolve
+def construction_heuristic(context: ConstructionContext) -> float:
+    """"""Improved heuristic combining distance and demand ratio.""""""
+    if context.candidate == context.depot:
+        return float('inf')
+    
+    # Calculate normalized distance and demand ratios
+    distance_ratio = context.distance / context.distance_matrix.max()
+    demand_ratio = context.demand / context.vehicle_capacity
+    
+    # Weighted score favoring closer locations with higher demand
+    score = 0.6 * (1 - distance_ratio) + 0.4 * demand_ratio
+    
+    # Penalize if adding demand exceeds capacity
+    if context.vehicle_load + context.demand > context.vehicle_capacity:
+        score *= 0.1
+        
+    return score
+```",False,N/A,1.8310091495513916,[],2025-04-11 00:30:22

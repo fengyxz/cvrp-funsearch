@@ -1,0 +1,20 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"Here's the improved `construction_heuristic` function that addresses the issues while maintaining the CVRP solution approach:
+
+```python
+@funsearch.evolve
+def construction_heuristic(context: ConstructionContext) -> float:
+    """"""Improved construction heuristic for CVRP using distance and capacity metrics.""""""
+    # Calculate distance from current location to candidate
+    current_loc = context.locations[context.depot] if context.vehicle_load == 0 else context.locations[context.candidate]
+    candidate_loc = context.locations[context.candidate]
+    distance = ((current_loc[0] - candidate_loc[0])**2 + (current_loc[1] - candidate_loc[1])**2)**0.5
+    
+    # Calculate capacity ratio (lower is better)
+    capacity_ratio = (context.vehicle_capacity - context.vehicle_load) / context.demand
+    
+    # Combined metric (distance * normalized capacity ratio)
+    score = distance * (1 / (1 + capacity_ratio))
+    
+    return score
+```",False,N/A,1.8690369129180908,[],2025-04-10 23:40:23

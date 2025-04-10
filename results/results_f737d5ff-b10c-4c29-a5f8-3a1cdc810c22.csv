@@ -1,0 +1,26 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Enhanced heuristic considering both distance and remaining capacity
+    distance_weight = 1.0
+    capacity_weight = 0.5
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load - ctx.demand
+    return (distance_weight * ctx.distance) - (capacity_weight * remaining_capacity)
+```",False,N/A,3.325606107711792,[],2025-04-10 22:48:49
+A-n32-k5,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Enhanced heuristic combining distance and capacity utilization
+    distance_score = ctx.distance / max(1, ctx.demand)  # Normalize by demand
+    capacity_utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    return 0.7 * distance_score + 0.3 * capacity_utilization
+```",True,1160.8381798724627,3.059156894683838,"[[0, 27, 24, 18, 26, 16, 12, 30, 0], [0, 3, 17, 19, 13, 7, 1, 0], [0, 25, 15, 22, 9, 11, 4, 0], [0, 21, 31, 6, 2, 23, 28, 8, 29, 5, 20, 0], [0, 14, 10, 0]]",2025-04-10 22:48:52
+A-n32-k5,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Balanced heuristic considering distance, demand and capacity utilization
+    distance_score = ctx.distance / max(1, ctx.demand)
+    capacity_score = 1 - (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    return 0.6 * distance_score + 0.4 * capacity_score
+```",True,1160.8381798724627,3.269498109817505,"[[0, 27, 24, 18, 26, 16, 12, 30, 0], [0, 3, 17, 19, 13, 7, 1, 0], [0, 25, 15, 22, 9, 11, 4, 0], [0, 21, 31, 6, 2, 23, 28, 8, 29, 5, 20, 0], [0, 14, 10, 0]]",2025-04-10 22:48:55

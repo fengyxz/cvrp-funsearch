@@ -1,0 +1,122 @@
+import numpy as np
+from dataclasses import dataclass
+from typing import List, Tuple
+
+class FunSearch:
+    def run(self, func):
+        return func
+
+    def evolve(self, func):
+        return func
+
+funsearch = FunSearch()
+
+@dataclass
+class ConstructionContext:
+    candidate: int
+    distance: float
+    demand: int
+    vehicle_load: int
+    vehicle_capacity: int
+    locations: np.ndarray
+    pheromone_matrix: np.ndarray
+    heuristic_matrix: np.ndarray
+    alpha: float
+    beta: float
+    
+# ========== 构建参数阶段 ==========
+@funsearch.evolve
+def construction_heuristic():
+    """
+    仅修改相关参数 
+    必须return num_ants,num_iterations,alpha,beta,rho,Q
+    """
+    num_ants=10
+    num_iterations=100
+    alpha=1
+    beta=2
+    rho=0.5
+    Q=100
+    return num_ants,num_iterations,alpha,beta,rho,Q
+    
+def ant_colony_optimization(data, num_ants=10, num_iterations=100, alpha=1, beta=2, rho=0.5, Q=100):
+    num_locations = data['num_locations']
+    num_vehicles = data['num_vehicles']
+    depot = data['depot']
+    distance_matrix = np.array(data['distance_matrix'])
+    demands = data['demand']
+    capacity = data['vehicle_capacity']
+    
+    pheromone = np.ones((num_locations, num_locations))
+    best_routes = None
+    best_distance = float('inf')
+    
+    for _ in range(num_iterations):
+        all_routes = []
+        all_distances = []
+        
+        for _ in range(num_ants):
+            routes = [[] for _ in range(num_vehicles)]
+            vehicle_loads = [0] * num_vehicles
+            unvisited = set(range(num_locations)) - {depot}
+            
+            for vehicle_id in range(num_vehicles):
+                routes[vehicle_id].append(depot)
+                current_node = depot
+                
+                while unvisited:
+                    probabilities = []
+                    nodes = []
+                    
+                    for node in unvisited:
+                        if vehicle_loads[vehicle_id] + demands[node] <= capacity:
+                            tau = pheromone[current_node][node] ** alpha
+                            eta = (1 / (distance_matrix[current_node][node] + 1e-6)) ** beta
+                            probabilities.append(tau * eta)
+                            nodes.append(node)
+                    
+                    if not nodes:
+                        break
+                    
+                    probabilities = np.array(probabilities) / sum(probabilities)
+                    next_node = np.random.choice(nodes, p=probabilities)
+                    routes[vehicle_id].append(next_node)
+                    vehicle_loads[vehicle_id] += demands[next_node]
+                    unvisited.remove(next_node)
+                    current_node = next_node
+                
+                routes[vehicle_id].append(depot)
+            
+            total_distance = sum(
+                sum(distance_matrix[routes[i][j]][routes[i][j+1]] for j in range(len(routes[i])-1))
+                for i in range(num_vehicles)
+            )
+            
+            all_routes.append(routes)
+            all_distances.append(total_distance)
+            
+            if total_distance < best_distance:
+                best_distance = total_distance
+                best_routes = routes
+        
+        pheromone *= (1 - rho)
+        for routes, total_distance in zip(all_routes, all_distances):
+            for route in routes:
+                for i in range(len(route) - 1):
+                    pheromone[route[i]][route[i + 1]] += Q / total_distance
+    
+    print(f"Best Distance: {best_distance}")
+    for i, route in enumerate(best_routes):
+        print(f"Route {i}: {route}")
+    return best_routes
+
+# 运行示例
+def solve(data):
+    num_ants,num_iterations,alpha,beta,rho,Q = construction_heuristic()
+    routes = ant_colony_optimization(data,num_ants,num_iterations,alpha,beta,rho,Q)
+    return routes
+
+@funsearch.run
+def evaluate(data):
+    routes = solve(data)
+    return routes

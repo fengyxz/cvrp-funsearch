@@ -1,0 +1,43 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    """"""Improved construction heuristic combining distance and demand factors.""""""
+    # Weight distance more heavily but consider demand to balance routes
+    distance_weight = 0.7
+    demand_weight = 0.3
+    
+    # Normalize factors (inverse since we want to minimize)
+    normalized_distance = ctx.distance / max(1, np.max(ctx.locations))
+    normalized_demand = ctx.demand / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_distance + 
+            demand_weight * normalized_demand)
+```",False,N/A,1.8608877658843994,[],2025-04-10 23:17:33
+A-n32-k5,1,"Here's the improved `construction_heuristic` function:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    """"""Improved construction heuristic combining distance and demand factors.""""""
+    # Weight distance more heavily but consider demand to balance routes
+    distance_weight = 0.7
+    demand_weight = 0.3
+    
+    # Normalize factors (inverse since we want to minimize)
+    normalized_distance = ctx.distance / max(1, np.max(ctx.locations))
+    normalized_demand = ctx.demand / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_distance + 
+            demand_weight * normalized_demand)
+```",False,N/A,1.775489091873169,[],2025-04-10 23:17:35
+A-n32-k5,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    """"""Improved construction heuristic combining distance and load utilization.""""""
+    # Balance between distance and remaining capacity
+    distance_factor = ctx.distance / np.max(ctx.locations)
+    capacity_factor = (ctx.vehicle_capacity - ctx.vehicle_load) / ctx.vehicle_capacity
+    
+    return 0.6 * distance_factor + 0.4 * capacity_factor
+```",False,N/A,1.8109638690948486,[],2025-04-10 23:17:37

@@ -1,22 +1,34 @@
   
 # 用户指令
+# USER_PROMPT = """
+# Find the better CVRP solution, try to change @funsearch.evolve:  construction_heuristic
+# just only change and reture tihis function's mame
+# only return the implementation of  @funsearch.evolve: construction_heuristic
+# please sure your is correct python code and just provide function `construction_heuristic` do not include any examples or extraneous functions.
+
+# Here is the code template, dataset as follows\n
+# IMPORTANT: Your response should only involve the function  `construction_heuristic`, don't give other code.
+# ATTENTION:@dataclass
+# class ConstructionContext:
+#     depot: int
+#     candidate: int
+#     distance: float
+#     demand: int
+#     vehicle_load: int
+#     vehicle_capacity: int
+#     locations: np.ndarray
+# """
 USER_PROMPT = """
 Find the better CVRP solution, try to change @funsearch.evolve:  construction_heuristic
 just only change and reture tihis function's mame
 only return the implementation of  @funsearch.evolve: construction_heuristic
 please sure your is correct python code and just provide function `construction_heuristic` do not include any examples or extraneous functions.
-
+you only need return the relative parameters
 Here is the code template, dataset as follows\n
 IMPORTANT: Your response should only involve the function  `construction_heuristic`, don't give other code.
 ATTENTION:@dataclass
-class ConstructionContext:
-    depot: int
-    candidate: int
-    distance: float
-    demand: int
-    vehicle_load: int
-    vehicle_capacity: int
-    locations: np.ndarray
+仅修改相关参数的值num_ants,num_iterations,alpha,beta,rho,Q
+必须return num_ants,num_iterations,alpha,beta,rho,Q
 """
 def read_template_file(file_path):
         try:
@@ -29,12 +41,12 @@ def read_template_file(file_path):
             print(f"Error: unknown {e}。")
             return ""
         
-# 代码模版
-CODE_TEMPLATE = read_template_file('cvrp-funsearch/cvrp/spec/simple_code_template.txt')
 # 需要避免的错误
-error_info_arr = [
-    "AttributeError: 'ConstructionContext' object has no attribute 'distance_matrix'",
-    "unsupported operand type(s) for -: 'tuple' and 'tuple'"
-]
+error_info_arr = []
+# [
+#     "AttributeError: 'ConstructionContext' object has no attribute 'distance_matrix'",
+#     "unsupported operand type(s) for -: 'tuple' and 'tuple'",
+#     "closing parenthesis ']' does not match opening parenthesis '('",
+# ]
 ERROR_INFO = '\n'.join(error_info_arr)
 

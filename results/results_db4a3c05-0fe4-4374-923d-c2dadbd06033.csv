@@ -1,0 +1,19 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"Here's the improved `construction_heuristic` function that handles the given data structure correctly:
+
+```python
+@funsearch.evolve
+def construction_heuristic(context: ConstructionContext) -> float:
+    """"""Improved construction heuristic for CVRP.""""""
+    # Calculate distance from current location to candidate
+    current_loc = context.locations[context.depot] if context.vehicle_load == 0 else context.locations[context.candidate]
+    candidate_loc = context.locations[context.candidate]
+    distance = np.linalg.norm(np.array(current_loc) - np.array(candidate_loc))
+    
+    # Calculate score considering both distance and remaining capacity
+    remaining_capacity = context.vehicle_capacity - context.vehicle_load
+    capacity_ratio = min(context.demand / remaining_capacity, 1) if remaining_capacity > 0 else float('inf')
+    score = distance * (1 + capacity_ratio)
+    
+    return score
+```",False,N/A,1.8142290115356445,[],2025-04-11 00:28:15

@@ -1,0 +1,24 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"Here's the improved `construction_heuristic` function that addresses the issues while maintaining the CVRP solution approach:
+
+```python
+@funsearch.evolve
+def construction_heuristic(context: ConstructionContext) -> float:
+    """"""Improved construction heuristic for CVRP using savings and capacity constraints.""""""
+    # Calculate distance from depot to candidate and back
+    depot_to_candidate = np.linalg.norm(
+        np.array(context.locations[context.depot]) - np.array(context.locations[context.candidate])
+    )
+    candidate_to_depot = depot_to_candidate
+    
+    # Calculate savings (distance saved by combining routes)
+    savings = depot_to_candidate + candidate_to_depot - context.distance
+    
+    # Apply capacity constraints
+    if context.vehicle_load + context.demand > context.vehicle_capacity:
+        return -1  # Invalid if exceeds capacity
+    
+    # Combine savings with inverse of remaining capacity ratio
+    capacity_ratio = 1 - (context.vehicle_load + context.demand) / context.vehicle_capacity
+    return savings * capacity_ratio
+```",False,N/A,1.8512768745422363,[],2025-04-11 00:28:40

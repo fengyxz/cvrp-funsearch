@@ -1,0 +1,6 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"```python
+@funsearch.evolve
+def construction_heuristic():
+    return 50, 100, 1.0, 2.0, 0.5, 100
+```",False,N/A,1.871757984161377,[],2025-04-11 00:34:50

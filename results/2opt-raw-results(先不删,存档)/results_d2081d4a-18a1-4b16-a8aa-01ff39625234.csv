@@ -1,0 +1,45 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n37-k5,0,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Modified heuristic combining distance and capacity utilization
+    distance_weight = 0.7
+    utilization_weight = 0.3
+    
+    # Normalized distance (lower is better)
+    normalized_distance = ctx.distance / np.max(ctx.locations)
+    
+    # Capacity utilization (higher is better)
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_distance - 
+            utilization_weight * utilization)
+```",True,996.8519524838431,1.8642010688781738,"[[0, 7, 33, 5, 13, 22, 16, 21, 9, 24, 3, 0], [0, 15, 34, 36, 32, 28, 31, 26, 30, 18, 25, 23, 14, 0], [0, 1, 12, 2, 19, 20, 11, 17, 0], [0, 29, 4, 6, 10, 27, 8, 0], [0, 35, 0]]",2025-04-10 19:13:19
+A-n37-k5,1,"Here's the improved `construction_heuristic` function:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combined metric considering distance and capacity utilization
+    distance_metric = ctx.distance / np.max(ctx.locations)  # Normalized distance
+    capacity_metric = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity  # Utilization
+    
+    # Weighted score favoring closer nodes and better capacity utilization
+    return 0.6 * distance_metric + 0.4 * (1 - capacity_metric)
+```",True,941.4781807090832,1.7832441329956055,"[[0, 7, 33, 5, 13, 22, 16, 21, 9, 24, 3, 0], [0, 15, 34, 36, 32, 28, 31, 26, 30, 18, 25, 23, 14, 0], [0, 1, 12, 10, 2, 19, 20, 17, 0], [0, 29, 35, 8, 27, 11, 6, 0], [0, 4, 0]]",2025-04-10 19:13:21
+A-n37-k5,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Enhanced heuristic with dynamic weights based on remaining capacity
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load
+    
+    # Dynamic weights - prioritize distance when capacity is tight
+    distance_weight = 0.8 if remaining_capacity < 0.3 * ctx.vehicle_capacity else 0.6
+    utilization_weight = 1 - distance_weight
+    
+    normalized_distance = ctx.distance / np.max(ctx.locations)
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_distance + 
+            utilization_weight * (1 - utilization))
+```",True,950.6475466108677,1.7956039905548096,"[[0, 7, 33, 5, 13, 22, 16, 21, 9, 24, 3, 0], [0, 15, 34, 36, 30, 32, 28, 31, 26, 18, 25, 23, 14, 0], [0, 1, 12, 10, 2, 19, 20, 17, 0], [0, 29, 35, 8, 27, 11, 6, 0], [0, 4, 0]]",2025-04-10 19:13:23

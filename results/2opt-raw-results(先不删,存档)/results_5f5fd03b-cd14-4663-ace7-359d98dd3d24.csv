@@ -1,0 +1,101 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"Here's the improved `construction_heuristic` function that considers both distance and vehicle load utilization:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Weighted combination of distance and capacity utilization
+    distance_weight = 0.7
+    capacity_weight = 0.3
+    
+    normalized_distance = ctx.distance / ctx.locations.shape[0]
+    capacity_utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_distance - 
+            capacity_weight * capacity_utilization)
+```",False,N/A,1.8646042346954346,[],2025-04-10 18:58:59
+A-n32-k5,1,"Here's an improved version of the `construction_heuristic` function that considers both distance and demand while maintaining feasibility:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combined heuristic considering distance and remaining capacity
+    distance_weight = 1.0
+    capacity_weight = 0.5
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load
+    
+    # Normalized scores (higher is better for capacity utilization)
+    normalized_distance = -ctx.distance  # Minimize distance
+    normalized_capacity = ctx.demand / remaining_capacity if remaining_capacity > 0 else 0
+    
+    return distance_weight * normalized_distance + capacity_weight * normalized_capacity
+```",True,1196.3150939363761,1.7974441051483154,"[[0, 25, 10, 11, 19, 31, 12, 0], [0, 26, 21, 17, 3, 4, 18, 15, 29, 5, 20, 0], [0, 30, 16, 1, 28, 8, 9, 22, 14, 0], [0, 27, 24, 23, 2, 13, 0], [0, 6, 7, 0]]",2025-04-10 18:59:00
+A-n32-k5,2,"Here's the improved `construction_heuristic` function that considers both distance and demand utilization:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Weighted combination of distance and demand utilization
+    distance_weight = 1.0
+    utilization_weight = 0.5  # Encourages better vehicle capacity usage
+    
+    # Normalized distance (0-1 range)
+    normalized_distance = ctx.distance / np.max(ctx.locations)
+    
+    # Utilization score (higher is better when vehicle has more capacity)
+    utilization_score = ctx.demand / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_distance - 
+            utilization_weight * utilization_score)
+```",True,1065.1870862702688,1.8124427795410156,"[[0, 30, 16, 12, 1, 7, 26, 14, 5, 0], [0, 20, 25, 10, 29, 22, 8, 18, 24, 27, 0], [0, 13, 21, 31, 19, 17, 3, 6, 0], [0, 2, 23, 28, 4, 11, 9, 0], [0, 15, 0]]",2025-04-10 18:59:02
+A-n32-k5,0,"Here's the improved `construction_heuristic` function that considers both distance and vehicle load utilization:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Weighted combination of distance and capacity utilization
+    distance_weight = 0.7
+    utilization_weight = 0.3
+    
+    # Normalized distance (shorter is better)
+    normalized_distance = ctx.distance / np.max(ctx.locations)
+    
+    # Capacity utilization (higher is better)
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_distance - 
+            utilization_weight * utilization)
+```",True,1065.1870862702688,1.9329142570495605,"[[0, 30, 16, 12, 1, 7, 26, 14, 5, 0], [0, 20, 25, 10, 29, 22, 8, 18, 24, 27, 0], [0, 13, 21, 31, 19, 17, 3, 6, 0], [0, 2, 23, 28, 4, 11, 9, 0], [0, 15, 0]]",2025-04-10 18:55:11
+A-n32-k5,1,"Here's the improved `construction_heuristic` function that considers both distance and vehicle load utilization:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Weighted combination of distance and capacity utilization
+    distance_weight = 0.7
+    capacity_weight = 0.3
+    
+    normalized_distance = ctx.distance / np.max(ctx.distance_matrix)
+    capacity_utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_distance - 
+            capacity_weight * capacity_utilization)
+```",False,N/A,1.824739933013916,[],2025-04-10 18:55:13
+A-n32-k5,2,"Here's the improved `construction_heuristic` function that considers both distance and vehicle capacity utilization:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Weighted combination of distance and capacity utilization
+    distance_weight = 1.0
+    capacity_weight = 0.5
+    
+    # Normalized distance (0-1 range)
+    normalized_distance = ctx.distance / np.max(ctx.locations)
+    
+    # Capacity utilization ratio (0-1 range)
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_distance + 
+            capacity_weight * (1 - utilization))
+```",True,1065.1870862702688,1.8023409843444824,"[[0, 30, 16, 12, 1, 7, 26, 14, 5, 0], [0, 20, 25, 10, 29, 22, 8, 18, 24, 27, 0], [0, 13, 21, 31, 19, 17, 3, 6, 0], [0, 2, 23, 28, 4, 11, 9, 0], [0, 15, 0]]",2025-04-10 18:55:14

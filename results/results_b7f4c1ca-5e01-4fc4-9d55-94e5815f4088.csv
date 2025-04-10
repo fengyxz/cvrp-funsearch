@@ -1,0 +1,14 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"```python
+@funsearch.evolve
+def construction_heuristic(context: ConstructionContext) -> float:
+    """"""Improved construction heuristic for CVRP considering distance and capacity.""""""
+    # Calculate savings score combining distance and capacity utilization
+    distance_score = context.distance
+    capacity_utilization = (context.vehicle_load + context.demand) / context.vehicle_capacity
+    # Penalize if adding demand exceeds capacity
+    if context.vehicle_load + context.demand > context.vehicle_capacity:
+        return -1.0
+    # Combine metrics with preference for higher capacity utilization
+    return (1.0 - distance_score / context.distance_matrix.max()) + 0.5 * capacity_utilization
+```",False,N/A,1.824568748474121,[],2025-04-11 00:26:07

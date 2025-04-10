@@ -1,0 +1,38 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n48-k7,0,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    """"""Improved construction heuristic considering both distance and capacity utilization.""""""
+    # Weighted combination of distance and normalized demand
+    distance_weight = 1.0
+    demand_weight = 0.5
+    capacity_utilization = ctx.demand / ctx.vehicle_capacity
+    
+    return (
+        distance_weight * ctx.distance +
+        demand_weight * capacity_utilization * ctx.distance
+    )
+```",True,1419.3028468726848,1.8507719039916992,"[[0, 14, 17, 41, 47, 16, 28, 34, 29, 42, 7, 0], [0, 18, 44, 35, 40, 45, 36, 32, 31, 0], [0, 23, 43, 5, 1, 6, 22, 0], [0, 12, 38, 25, 19, 37, 3, 9, 0], [0, 2, 10, 33, 21, 30, 13, 4, 0], [0, 27, 15, 8, 39, 26, 20, 0], [0, 24, 11, 46, 0]]",2025-04-10 19:21:19
+A-n48-k7,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    """"""Improved construction heuristic with distance and capacity balance.""""""
+    # Balance between distance and remaining capacity
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load
+    capacity_factor = 1 - (ctx.demand / remaining_capacity) if remaining_capacity > 0 else float('inf')
+    
+    return ctx.distance * capacity_factor
+```",True,1450.0958834396786,1.821380853652954,"[[0, 18, 44, 35, 36, 37, 13, 0], [0, 14, 17, 47, 10, 21, 16, 0], [0, 23, 43, 31, 5, 1, 6, 22, 0], [0, 12, 32, 39, 15, 9, 34, 45, 7, 40, 0], [0, 41, 2, 33, 30, 46, 4, 24, 3, 0], [0, 28, 29, 42, 11, 20, 26, 8, 27, 38, 0], [0, 19, 25, 0]]",2025-04-10 19:21:20
+A-n48-k7,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    """"""Improved heuristic combining distance and capacity utilization.""""""
+    # Weight factors
+    alpha = 1.0  # distance weight
+    beta = 0.3   # capacity utilization weight
+    
+    # Normalized capacity utilization score
+    capacity_utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return alpha * ctx.distance + beta * capacity_utilization * ctx.distance
+```",True,1337.093652282216,1.8008160591125488,"[[0, 14, 17, 7, 36, 32, 35, 44, 18, 0], [0, 23, 43, 31, 5, 1, 6, 22, 0], [0, 41, 47, 16, 28, 24, 4, 42, 9, 34, 0], [0, 12, 38, 19, 25, 3, 37, 40, 0], [0, 45, 27, 8, 39, 26, 15, 29, 0], [0, 2, 10, 33, 21, 30, 13, 0], [0, 46, 11, 20, 0]]",2025-04-10 19:21:22

@@ -1,0 +1,152 @@
+import numpy as np
+import random
+from dataclasses import dataclass
+from typing import Tuple, List
+
+# FunSearch 框架模拟
+class FunSearch:
+    def run(self, func): return func
+    def evolve(self, func): return func
+funsearch = FunSearch()
+
+# 构造上下文：用于初始解构建
+@dataclass
+class ConstructionContext:
+    depot: int
+    candidate: int
+    distance: float
+    demand: int
+    vehicle_load: int
+    vehicle_capacity: int
+    locations: np.ndarray
+
+# 主求解函数
+def solve(data: dict) -> List[List[int]]:
+    # 设置模拟退火参数
+    initial_temp = 5000
+    cooling_rate = 0.995
+    stopping_temp = 1
+
+    # 阶段1：构造初始解
+    initial_routes = greedy_initial_solution(data)
+
+    # 阶段2：局部搜索优化
+    optimized_routes = local_search_optimization(
+        data, initial_routes, initial_temp, cooling_rate, stopping_temp
+    )
+
+    return optimized_routes
+
+# ========== 初始解构建阶段 ==========
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # 可调整权重构建策略
+    return 1.0 * ctx.distance
+
+def greedy_initial_solution(data: dict) -> List[List[int]]:
+    routes = []
+    unvisited = set(range(len(data['demand']))) - {data['depot']}
+
+    while unvisited and len(routes) < data['num_vehicles']:
+        route = [data['depot']]
+        current_load = 0
+
+        while True:
+            candidates = [
+                n for n in unvisited
+                if data['demand'][n] + current_load <= data['vehicle_capacity']
+            ]
+            if not candidates:
+                break
+
+            # 生成候选上下文
+            contexts = [
+                ConstructionContext(
+                    depot=data['depot'],
+                    candidate=n,
+                    distance=data['distance_matrix'][route[-1]][n],
+                    demand=data['demand'][n],
+                    vehicle_load=current_load,
+                    vehicle_capacity=data['vehicle_capacity'],
+                    locations=data['locations']
+                ) for n in candidates
+            ]
+
+            # 选择最优候选
+            scores = [construction_heuristic(ctx) for ctx in contexts]
+            next_node = candidates[np.argmin(scores)]
+
+            route.append(next_node)
+            current_load += data['demand'][next_node]
+            unvisited.remove(next_node)
+
+        # 合法路径需包含客户节点
+        if len(route) > 1:
+            route.append(data['depot'])
+            routes.append(route)
+
+    return routes
+
+# ========== 局部优化阶段（模拟退火） ==========
+def local_search_optimization(data: dict, routes: List[List[int]],
+                              initial_temp: float, cooling_rate: float, stopping_temp: float) -> List[List[int]]:
+    optimized = []
+
+    for route in routes:
+        if len(route) <= 2:
+            optimized.append(route)
+            continue
+
+        temperature = initial_temp
+        current_route = route
+        best_route = route
+        current_distance = total_distance(current_route, data['distance_matrix'])
+        best_distance = current_distance
+
+        while temperature > stopping_temp:
+            neighbors = generate_neighbors(current_route, data['demand'], data['vehicle_capacity'])
+            if not neighbors:
+                break
+
+            neighbors.sort(key=lambda x: total_distance(x, data['distance_matrix']))
+            neighbor = neighbors[0]
+            neighbor_distance = total_distance(neighbor, data['distance_matrix'])
+
+            if neighbor_distance < current_distance or \
+               random.random() < np.exp((current_distance - neighbor_distance) / temperature):
+                current_route = neighbor
+                current_distance = neighbor_distance
+
+                if current_distance < best_distance:
+                    best_route = current_route
+                    best_distance = current_distance
+
+            temperature *= cooling_rate
+
+        optimized.append(best_route)
+
+    return optimized
+
+# ========== 辅助函数 ==========
+def total_distance(route: List[int], distance_matrix: np.ndarray) -> float:
+    return sum(distance_matrix[i][j] for i, j in zip(route[:-1], route[1:]))
+
+def generate_neighbors(route: List[int], demand: List[int], vehicle_capacity: int) -> List[List[int]]:
+    neighbors = []
+    for i in range(1, len(route) - 2):
+        for j in range(i + 1, len(route) - 1):
+            new_route = route[:]
+            new_route[i:j + 1] = reversed(new_route[i:j + 1])
+
+            if is_valid_route(new_route, demand, vehicle_capacity):
+                neighbors.append(new_route)
+    return neighbors
+
+def is_valid_route(route: List[int], demand: List[int], vehicle_capacity: int) -> bool:
+    total = sum(demand[i] for i in route if i != route[0] and i != route[-1])
+    return total <= vehicle_capacity
+
+# ========== FunSearch 执行入口 ==========
+@funsearch.run
+def evaluate(data: dict) -> List[List[int]]:
+    return solve(data)
