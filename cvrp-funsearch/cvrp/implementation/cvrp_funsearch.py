@@ -41,7 +41,7 @@ if __name__ == '__main__':
     # class_config = config.ClassConfig(llm_class=LLMAPI, sandbox_class=Sandbox)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
     api_key =os.getenv("API_KEY")
-    CODE_TEMPLATE = read_template_file('cvrp-funsearch/cvrp/spec/LNS_template.txt')
+    CODE_TEMPLATE = read_template_file('cvrp-funsearch/cvrp/spec/ACO_template.txt')
     # dataset_names = ['A-n53-k7','A-n63-k10','P-n65-k10',"A-n80-k10","E-n76-k14"]
     # dataset_names = ['X-n110-k13','X-n115-k10','X-n120-k6','X-n139-k10']
     # dataset_names = ['A-n32-k5','A-n37-k5','A-n44-k6','A-n45-k6','A-n48-k7','P-n50-k10']
