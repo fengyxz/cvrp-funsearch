@@ -1,0 +1,9 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Weight distance more heavily when vehicle is nearly full
+    load_factor = ctx.vehicle_load / ctx.vehicle_capacity
+    distance_weight = 1.0 + 2.0 * load_factor  # Increase weight when vehicle is fuller
+    return distance_weight * ctx.distance
+```",True,873.562131767584,2.0446550846099854,"[[0, 12, 1, 7, 4, 11, 8, 18, 14, 0], [0, 20, 5, 25, 10, 15, 29, 27, 0], [0, 16, 21, 31, 19, 17, 13, 0], [0, 30, 26, 6, 3, 2, 23, 28, 9, 22, 0], [0, 24, 0]]",2025-04-11 18:43:05

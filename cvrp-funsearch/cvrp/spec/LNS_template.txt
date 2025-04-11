@@ -1,0 +1,195 @@
+import numpy as np
+import random
+from dataclasses import dataclass
+from typing import Tuple, List
+
+# Mocked FunSearch framework
+class FunSearch:
+    def run(self, func): return func
+    def evolve(self, func): return func
+funsearch = FunSearch()
+
+@dataclass
+class ConstructionContext:
+    depot: int
+    candidate: int
+    distance: float
+    demand: int
+    vehicle_load: int
+    vehicle_capacity: int
+    locations: np.ndarray
+
+@dataclass
+class LocalSearchContext:
+    route: Tuple[int, ...]
+    candidate_nodes: Tuple[int, ...]
+    distance_matrix: np.ndarray
+    demand: np.ndarray
+    capacity: int
+
+# 主入口
+def solve(data: dict) -> List[List[int]]:
+    # 阶段1：启发式初始解构建
+    initial_routes = greedy_initial_solution(data)
+
+    # 阶段2：LNS优化
+    optimized_routes = local_search_optimization(data, initial_routes)
+
+    return optimized_routes
+
+# ========== 初始解构建阶段 ==========
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # 可扩展为更复杂的加权函数
+    return 1 * ctx.distance
+
+def greedy_initial_solution(data: dict) -> List[List[int]]:
+    routes = []
+    unvisited = set(range(len(data['demand']))) - {data['depot']}
+
+    while unvisited and len(routes) < data['num_vehicles']:
+        route = [data['depot']]
+        current_load = 0
+
+        while True:
+            candidates = [
+                n for n in unvisited
+                if data['demand'][n] + current_load <= data['vehicle_capacity']
+            ]
+            if not candidates:
+                break
+
+            contexts = [
+                ConstructionContext(
+                    depot=data['depot'],
+                    candidate=n,
+                    distance=data['distance_matrix'][route[-1]][n],
+                    demand=data['demand'][n],
+                    vehicle_load=current_load,
+                    vehicle_capacity=data['vehicle_capacity'],
+                    locations=data['locations']
+                ) for n in candidates
+            ]
+
+            scores = [construction_heuristic(ctx) for ctx in contexts]
+            next_node = candidates[np.argmin(scores)]
+
+            route.append(next_node)
+            current_load += data['demand'][next_node]
+            unvisited.remove(next_node)
+
+        route.append(data['depot'])
+        routes.append(route)
+
+    return routes
+
+# ========== LNS 优化阶段 ==========
+def local_search_optimization(data: dict, routes: list[list[int]]) -> list[list[int]]:
+    best_routes, _, _ = large_neighborhood_search_cvrp(
+        distance_matrix=data['distance_matrix'],
+        demands=data['demand'],
+        num_vehicles=data['num_vehicles'],
+        vehicle_capacity=data['vehicle_capacity']
+    )
+    return best_routes
+
+def large_neighborhood_search_cvrp(distance_matrix, demands, num_vehicles, vehicle_capacity,
+                                   num_iterations=1000, destruction_size=5):
+    current_routes = greedy_initial_solution({
+        'distance_matrix': distance_matrix,
+        'demand': demands,
+        'num_vehicles': num_vehicles,
+        'vehicle_capacity': vehicle_capacity,
+        'depot': 0,
+        'locations': np.zeros((len(demands), 2))
+    })
+    current_cost = total_distance(current_routes, distance_matrix)
+    current_feasible = test_capacity_constraint(current_routes, demands, vehicle_capacity)
+
+    best_routes = [route.copy() for route in current_routes]
+    best_cost = current_cost
+    best_feasible = current_feasible
+
+    for _ in range(num_iterations):
+        partial_routes, removed_customers = destroy_solution(current_routes, destruction_size)
+        repaired_routes = repair_solution(partial_routes, removed_customers, distance_matrix,
+                                          demands, vehicle_capacity, num_vehicles)
+
+        repaired_feasible = test_capacity_constraint(repaired_routes, demands, vehicle_capacity)
+        repaired_cost = total_distance(repaired_routes, distance_matrix) if repaired_feasible else float('inf')
+
+        if repaired_feasible and repaired_cost < current_cost:
+            current_routes = [route.copy() for route in repaired_routes]
+            current_cost = repaired_cost
+            current_feasible = repaired_feasible
+
+            if repaired_cost < best_cost:
+                best_routes = [route.copy() for route in current_routes]
+                best_cost = repaired_cost
+                best_feasible = repaired_feasible
+
+    return best_routes, best_cost, best_feasible
+
+# ========== 辅助函数 ==========
+def total_distance(routes, distance_matrix):
+    return sum(
+        distance_matrix[route[i]][route[i + 1]]
+        for route in routes for i in range(len(route) - 1)
+    )
+
+def test_capacity_constraint(routes, demands, capacity):
+    for route in routes:
+        load = sum(demands[node] for node in route if node != 0)
+        if load > capacity:
+            return False
+    return True
+
+def destroy_solution(routes, num_remove):
+    all_customers = [n for r in routes for n in r if n != 0]
+    removed_customers = random.sample(all_customers, min(num_remove, len(all_customers)))
+
+    new_routes = []
+    for route in routes:
+        new_route = [n for n in route if n not in removed_customers]
+        if new_route[0] != 0:
+            new_route = [0] + new_route
+        if new_route[-1] != 0:
+            new_route = new_route + [0]
+        if len(new_route) > 2:
+            new_routes.append(new_route)
+    return new_routes, removed_customers
+
+def repair_solution(routes, removed_customers, distance_matrix, demands, capacity, num_vehicles):
+    for customer in removed_customers:
+        best_cost = float('inf')
+        best_route_idx = -1
+        best_pos = -1
+
+        for i, route in enumerate(routes):
+            load = sum(demands[node] for node in route if node != 0)
+            if load + demands[customer] > capacity:
+                continue
+
+            for j in range(1, len(route)):
+                cost = (
+                    distance_matrix[route[j - 1]][customer]
+                    + distance_matrix[customer][route[j]]
+                    - distance_matrix[route[j - 1]][route[j]]
+                )
+                if cost < best_cost:
+                    best_cost = cost
+                    best_route_idx = i
+                    best_pos = j
+
+        if best_route_idx == -1 and len(routes) < num_vehicles:
+            routes.append([0, customer, 0])
+        elif best_route_idx >= 0:
+            routes[best_route_idx].insert(best_pos, customer)
+
+    return routes
+
+# ========== 运行接口 ==========
+@funsearch.run
+def evaluate(data):
+    routes = solve(data)
+    return routes

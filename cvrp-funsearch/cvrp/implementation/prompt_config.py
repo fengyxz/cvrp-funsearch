@@ -18,7 +18,7 @@
 #     vehicle_capacity: int
 #     locations: np.ndarray
 # """
-USER_PROMPT = """
+USER_PROMPT1 = """
 Find the better CVRP solution, try to change @funsearch.evolve:  construction_heuristic
 just only change and reture tihis function's mame
 only return the implementation of  @funsearch.evolve: construction_heuristic
@@ -29,6 +29,16 @@ IMPORTANT: Your response should only involve the function  `construction_heurist
 ATTENTION:@dataclass
 仅修改相关参数的值num_ants,num_iterations,alpha,beta,rho,Q
 必须return num_ants,num_iterations,alpha,beta,rho,Q
+"""
+USER_PROMPT = """
+Find the better CVRP solution, try to change @funsearch.evolve:  construction_heuristic
+just only change and reture tihis function's mame
+only return the implementation of  @funsearch.evolve: construction_heuristic
+please sure your is correct python code and just provide function `construction_heuristic` do not include any examples or extraneous functions.
+you only need return the relative parameters
+Here is the code template, dataset as follows\n
+IMPORTANT: Your response should only involve the function  `construction_heuristic`, don't give other code.
+ATTENTION:@dataclass
 """
 def read_template_file(file_path):
         try:
