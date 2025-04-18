@@ -39,32 +39,40 @@ def response_to_code(generated_response:str, template:str, function_to_evolve:st
     return new_code
 
 def replace_function_by_name(source_code, old_function_name, new_function_str):
-    # 解析源代码为抽象语法树
-    # print(source_code)
-    print(repr(new_function_str))
+    try:
+        # Parse the source code into an AST
+        tree = ast.parse(source_code)
+    except Exception as e:
+        print(f"Failed to parse source code: {e}")
+        return source_code
 
-    tree = ast.parse(source_code)
-    new_function_ast =  ast.parse(new_function_str)
-    # 定义一个访问者类，用于遍历抽象语法树
+    try:
+        # Parse the new function string and extract the function definition node
+        new_function_ast = ast.parse(new_function_str).body[0]
+    except Exception as e:
+        print(f"Failed to parse new function: {e}")
+        return source_code
+
     class FunctionReplacer(ast.NodeTransformer):
         def visit_FunctionDef(self, node):
-            # 如果当前节点是函数定义，并且函数名与要替换的函数名相同
+            # Replace the function if the name matches
             if node.name == old_function_name:
-                # 返回新的函数定义节点来替换原节点
                 return new_function_ast
-            # 否则保留该节点
             return self.generic_visit(node)
 
-    # 创建访问者实例
-    replacer = FunctionReplacer()
-    # 对抽象语法树进行转换
-    new_tree = replacer.visit(tree)
+    try:
+        # Transform the AST
+        replacer = FunctionReplacer()
+        new_tree = replacer.visit(tree)
+        ast.fix_missing_locations(new_tree)
 
-    # 将修改后的抽象语法树转换回 Python 代码
-    new_code = ast.unparse(new_tree)
-  
-    return new_code
-
+        # Convert the modified AST back to source code
+        new_code = ast.unparse(new_tree)
+        return new_code
+    except Exception as e:
+        print(f"Error during AST transformation or unparse: {e}")
+        return source_code
+    
 # 代码评估器
 class Evaluator:
     def __init__(self, template, function_to_evolve, function_to_run, input,timeout_seconds=300,
