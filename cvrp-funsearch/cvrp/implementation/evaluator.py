@@ -62,6 +62,7 @@ def replace_function_by_name(source_code, old_function_name, new_function_str):
 
     # 将修改后的抽象语法树转换回 Python 代码
     new_code = ast.unparse(new_tree)
+  
     return new_code
 
 # 代码评估器
@@ -103,7 +104,7 @@ class Evaluator:
         data = self._input.data
 
         new_code = response_to_code(sample, self._template, self._function_to_evolve)
-
+        print(new_code)
         routes = sandbox.run(
             program=new_code,
             function_to_run=self._function_to_run,

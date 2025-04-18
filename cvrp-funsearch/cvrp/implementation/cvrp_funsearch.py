@@ -41,10 +41,10 @@ if __name__ == '__main__':
     # class_config = config.ClassConfig(llm_class=LLMAPI, sandbox_class=Sandbox)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
     api_key =os.getenv("API_KEY")
-    CODE_TEMPLATE = read_template_file('cvrp-funsearch/cvrp/spec/GA_template.txt')
+    CODE_TEMPLATE = read_template_file('cvrp-funsearch/cvrp/spec/SA_new_template.txt')
     # dataset_names = ['A-n53-k7','A-n63-k10','P-n65-k10',"A-n80-k10","E-n76-k14"]
-    # dataset_names = ['X-n110-k13','X-n115-k10','X-n120-k6','X-n139-k10'] # large
-    dataset_names = ['A-n32-k5','A-n37-k5','A-n45-k6','A-n48-k7','A-n53-k7','A-n63-k10','A-n80-k10']# small
+    dataset_names = ['X-n110-k13','X-n115-k10','X-n120-k6','X-n139-k10'] # large
+    # dataset_names = ['A-n32-k5','A-n37-k5','A-n45-k6','A-n48-k7','A-n53-k7','A-n63-k10','A-n80-k10']# small
     # dataset_names = ['A-n45-k6'] #
     results = []
 
@@ -52,15 +52,15 @@ if __name__ == '__main__':
     for dataset_name in dataset_names:
         model = llm_model.DsModel(api_key)
         # 设置采样次数
-        sample_size = 1
+        sample_size = 5
         llm = llm_model.LLM(sample_size,model)
         # 读入数据
-        data = read_cvrp_data(f'cvrp-funsearch/cvrp/data/small/{dataset_name}.vrp')
+        data = read_cvrp_data(f'cvrp-funsearch/cvrp/data/large/{dataset_name}.vrp')
         input = DataSet(dataset_name,data)
         # 加载Prompt生成器
-        prompt_generator = PromptGenerator(USER_PROMPT_GA,CODE_TEMPLATE,ERROR_INFO,"")    
+        prompt_generator = PromptGenerator(USER_PROMPT,CODE_TEMPLATE,ERROR_INFO,"")    
         # 加载evaluator
-        evaluator = Evaluator(CODE_TEMPLATE,'fitness','evaluate',input)
+        evaluator = Evaluator(CODE_TEMPLATE,'construction_heuristic','evaluate',input)
         # 运行 LLM获得回答
         prompt = prompt_generator.generate(input.data)
         responses = llm.draw_samples(prompt)

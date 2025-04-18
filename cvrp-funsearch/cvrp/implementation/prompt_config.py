@@ -38,6 +38,8 @@ please sure your is correct python code and just provide function `construction_
 you only need return the relative parameters
 Here is the code template, dataset as follows\n
 IMPORTANT: Your response should only involve the function  `construction_heuristic`, don't give other code. You must visit all nodes.
+Avoid : Exception has occurred: SyntaxError
+
 ATTENTION:@dataclass
 """
 USER_PROMPT_GA= """
@@ -62,7 +64,7 @@ def read_template_file(file_path):
             return ""
         
 # 需要避免的错误
-error_info_arr = []
+error_info_arr = ['Exception has occurred: SyntaxError']
 # [
 #     "AttributeError: 'ConstructionContext' object has no attribute 'distance_matrix'",
 #     "unsupported operand type(s) for -: 'tuple' and 'tuple'",
