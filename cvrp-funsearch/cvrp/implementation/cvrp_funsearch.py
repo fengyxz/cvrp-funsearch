@@ -45,7 +45,7 @@ if __name__ == '__main__':
     # dataset_names = ['A-n53-k7','A-n63-k10','P-n65-k10',"A-n80-k10","E-n76-k14"]
     # dataset_names = ['X-n110-k13','X-n115-k10','X-n120-k6','X-n139-k10'] # large
     dataset_names = ['A-n32-k5','A-n37-k5','A-n45-k6','A-n48-k7','A-n53-k7','A-n63-k10','A-n80-k10']
-    # dataset_names = ['A-n45-k6'] #fail
+    # dataset_names = ['A-n45-k6'] #
     results = []
 
     # 加载LLM-model

@@ -19,7 +19,7 @@
 #     locations: np.ndarray
 # """
 USER_PROMPT_ACO = """
-Find the better CVRP solution, try to change @funsearch.evolve:  construction_heuristic
+Find the better CVRP solution, try to change @funsearch.evolve:  construction_heuristic in 【Ant Colony Optimization】
 just only change and reture tihis function's mame
 only return the implementation of  @funsearch.evolve: construction_heuristic
 please sure your is correct python code and just provide function `construction_heuristic` do not include any examples or extraneous functions.
@@ -40,14 +40,14 @@ Here is the code template, dataset as follows\n
 IMPORTANT: Your response should only involve the function  `construction_heuristic`, don't give other code. You must visit all nodes.
 ATTENTION:@dataclass
 """
-USER_PROMPT_PARAMS = """
-Find the better CVRP solution, try to change @funsearch.evolve_2:  construction_heuristic
+USER_PROMPT_GA= """
+Find the better CVRP solution, try to change @funsearch.evolve: fitness in 【Genetic Algorithm】
 just only change and reture tihis function's mame
-only return the implementation of  @funsearch.evolve_2: construction_heuristic
-please sure your is correct python code and just provide function `construction_heuristic_params` do not include any examples or extraneous functions.
+only return the implementation of  @funsearch.evolve: fitness
+please sure your is correct python code and just provide function `fitness` do not include any examples or extraneous functions.
 you only need return the relative parameters
 Here is the code template, dataset as follows\n
-IMPORTANT: Your response should only involve the function  `construction_heuristic_params`, don't give other code. You must visit all nodes.
+IMPORTANT: Your response should only involve the function  `fitness`, don't give other code. 
 ATTENTION:@dataclass
 """
 def read_template_file(file_path):
