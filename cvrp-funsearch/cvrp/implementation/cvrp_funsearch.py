@@ -52,7 +52,7 @@ if __name__ == '__main__':
     for dataset_name in dataset_names:
         model = llm_model.DsModel(api_key)
         # 设置采样次数
-        sample_size = 3
+        sample_size = 1
         llm = llm_model.LLM(sample_size,model)
         # 读入数据
         data = read_cvrp_data(f'cvrp-funsearch/cvrp/data/small/{dataset_name}.vrp')
