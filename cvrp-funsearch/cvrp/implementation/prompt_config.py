@@ -18,17 +18,17 @@
 #     vehicle_capacity: int
 #     locations: np.ndarray
 # """
-USER_PROMPT1 = """
+USER_PROMPT_ACO = """
 Find the better CVRP solution, try to change @funsearch.evolve:  construction_heuristic
 just only change and reture tihis function's mame
 only return the implementation of  @funsearch.evolve: construction_heuristic
 please sure your is correct python code and just provide function `construction_heuristic` do not include any examples or extraneous functions.
 you only need return the relative parameters
 Here is the code template, dataset as follows\n
-IMPORTANT: Your response should only involve the function  `construction_heuristic`, don't give other code.
+IMPORTANT: Your response should only involve the function  `construction_heuristic`, don't give other code. must visit all nodes!
 ATTENTION:@dataclass
-仅修改相关参数的值num_ants,num_iterations,alpha,beta,rho,Q
-必须return num_ants,num_iterations,alpha,beta,rho,Q
+only change parameters: num_ants,num_iterations,alpha,beta,rho,Q
+must return num_ants,num_iterations,alpha,beta,rho,Q
 """
 USER_PROMPT = """
 Find the better CVRP solution, try to change @funsearch.evolve:  construction_heuristic
@@ -37,7 +37,17 @@ only return the implementation of  @funsearch.evolve: construction_heuristic
 please sure your is correct python code and just provide function `construction_heuristic` do not include any examples or extraneous functions.
 you only need return the relative parameters
 Here is the code template, dataset as follows\n
-IMPORTANT: Your response should only involve the function  `construction_heuristic`, don't give other code.
+IMPORTANT: Your response should only involve the function  `construction_heuristic`, don't give other code. You must visit all nodes.
+ATTENTION:@dataclass
+"""
+USER_PROMPT_PARAMS = """
+Find the better CVRP solution, try to change @funsearch.evolve_2:  construction_heuristic
+just only change and reture tihis function's mame
+only return the implementation of  @funsearch.evolve_2: construction_heuristic
+please sure your is correct python code and just provide function `construction_heuristic_params` do not include any examples or extraneous functions.
+you only need return the relative parameters
+Here is the code template, dataset as follows\n
+IMPORTANT: Your response should only involve the function  `construction_heuristic_params`, don't give other code. You must visit all nodes.
 ATTENTION:@dataclass
 """
 def read_template_file(file_path):

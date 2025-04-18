@@ -1,0 +1,491 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for better convergence and exploration
+    """"""
+    num_ants = 20  # Increased for better exploration
+    num_iterations = 200  # Increased for better convergence
+    alpha = 1.5  # Higher pheromone influence
+    beta = 3  # Higher heuristic influence
+    rho = 0.3  # Lower evaporation rate to preserve good solutions
+    Q = 150  # Increased pheromone deposit
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1058.5496336572905,5.276587963104248,"[[0, 30, 26, 16, 12, 7, 13, 21, 18, 0], [0, 24, 14, 27, 20, 5, 25, 10, 29, 22, 0], [0, 17, 19, 31, 3, 2, 23, 6, 0], [0, 15, 9, 8, 4, 11, 28, 0], [0, 1, 0]]",2025-04-17 20:15:19
+A-n32-k5,1,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Balanced parameters for exploration and exploitation
+    """"""
+    num_ants = 15
+    num_iterations = 150
+    alpha = 1.2
+    beta = 2.5
+    rho = 0.4
+    Q = 120
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,842.2991268758229,3.6256628036499023,"[[0, 27, 24, 14, 26, 30, 16, 1, 0], [0, 20, 5, 25, 10, 15, 9, 22, 8, 18, 29, 0], [0, 7, 13, 31, 19, 17, 21, 0], [0, 6, 3, 2, 23, 28, 11, 4, 0], [0, 12, 0]]",2025-04-17 20:15:22
+A-n32-k5,2,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for medium-sized CVRP instances
+    """"""
+    num_ants = 25
+    num_iterations = 250
+    alpha = 1.3
+    beta = 2.8
+    rho = 0.35
+    Q = 180
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,947.2272149405086,7.070293188095093,"[[0, 30, 26, 16, 7, 14, 24, 27, 29, 18, 0], [0, 20, 5, 25, 10, 15, 9, 22, 8, 0], [0, 6, 23, 3, 2, 28, 4, 11, 0], [0, 13, 21, 31, 19, 17, 1, 0], [0, 12, 0]]",2025-04-17 20:15:29
+A-n32-k5,3,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for better exploration-exploitation balance
+    """"""
+    num_ants = 30
+    num_iterations = 300
+    alpha = 1.4
+    beta = 2.2
+    rho = 0.25
+    Q = 200
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,963.5843841316919,9.720425128936768,"[[0, 20, 5, 25, 10, 15, 9, 22, 18, 8, 29, 26, 0], [0, 30, 16, 12, 1, 7, 31, 14, 0], [0, 13, 21, 19, 17, 2, 3, 0], [0, 6, 23, 28, 11, 4, 24, 0], [0, 27, 0]]",2025-04-17 20:15:39
+A-n32-k5,4,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for the given dataset characteristics
+    """"""
+    num_ants = 25
+    num_iterations = 200
+    alpha = 1.2
+    beta = 2.5
+    rho = 0.35
+    Q = 150
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,943.7315646299206,6.160516262054443,"[[0, 27, 24, 14, 26, 16, 12, 6, 0], [0, 30, 7, 31, 19, 17, 21, 3, 0], [0, 13, 2, 23, 28, 4, 11, 8, 18, 0], [0, 20, 5, 25, 10, 15, 9, 22, 29, 0], [0, 1, 0]]",2025-04-17 20:15:45
+A-n37-k5,0,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for better performance
+    """"""
+    num_ants = 20
+    num_iterations = 200
+    alpha = 1.5
+    beta = 3.0
+    rho = 0.3
+    Q = 150
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,878.5525606845994,6.02385687828064,"[[0, 15, 21, 16, 22, 13, 5, 33, 10, 14, 3, 0], [0, 34, 36, 29, 32, 28, 31, 26, 30, 25, 18, 0], [0, 1, 12, 17, 23, 24, 9, 27, 8, 11, 0], [0, 7, 4, 6, 2, 19, 20, 0], [0, 35, 0]]",2025-04-17 20:16:39
+A-n37-k5,1,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for medium-sized CVRP
+    """"""
+    num_ants = 15
+    num_iterations = 150
+    alpha = 1.2
+    beta = 2.5
+    rho = 0.4
+    Q = 120
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,823.4726391606969,4.215625047683716,"[[0, 15, 21, 16, 7, 4, 33, 5, 13, 3, 28, 0], [0, 1, 12, 17, 14, 23, 24, 9, 27, 8, 11, 0], [0, 29, 32, 31, 26, 30, 25, 18, 35, 34, 0], [0, 22, 10, 6, 2, 19, 20, 0], [0, 36, 0]]",2025-04-17 20:16:43
+A-n37-k5,2,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for larger CVRP instances
+    """"""
+    num_ants = 25
+    num_iterations = 250
+    alpha = 1.8
+    beta = 3.5
+    rho = 0.2
+    Q = 200
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,846.7318706751851,8.495485782623291,"[[0, 15, 21, 16, 7, 4, 29, 36, 34, 0], [0, 1, 12, 17, 14, 23, 24, 9, 11, 8, 27, 3, 0], [0, 22, 13, 5, 33, 10, 2, 19, 20, 0], [0, 35, 18, 26, 30, 25, 32, 28, 31, 0], [0, 6, 0]]",2025-04-17 20:16:51
+A-n37-k5,3,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Balanced parameters for the given dataset size
+    """"""
+    num_ants = 15
+    num_iterations = 150
+    alpha = 1.2
+    beta = 2.8
+    rho = 0.35
+    Q = 130
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,879.0597993850339,4.183923006057739,"[[0, 15, 21, 16, 7, 4, 33, 10, 14, 17, 1, 3, 0], [0, 30, 25, 35, 18, 26, 28, 31, 32, 34, 29, 0], [0, 36, 13, 5, 6, 2, 20, 23, 24, 9, 0], [0, 12, 19, 11, 27, 8, 0], [0, 22, 0]]",2025-04-17 20:16:56
+A-n37-k5,4,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for the given dataset characteristics
+    """"""
+    num_ants = 18
+    num_iterations = 180
+    alpha = 1.3
+    beta = 2.7
+    rho = 0.38
+    Q = 140
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,848.6609013736318,5.305723190307617,"[[0, 15, 21, 16, 7, 4, 33, 5, 13, 14, 0], [0, 29, 32, 28, 31, 26, 30, 35, 18, 34, 25, 0], [0, 1, 12, 17, 23, 24, 8, 27, 11, 9, 3, 0], [0, 22, 10, 2, 19, 20, 6, 0], [0, 36, 0]]",2025-04-17 20:17:01
+A-n45-k6,0,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters based on problem size and characteristics
+    """"""
+    num_ants = 20  # Increased exploration with more ants
+    num_iterations = 200  # More iterations for convergence
+    alpha = 1.2  # Slightly higher pheromone influence
+    beta = 3.0  # Stronger heuristic bias
+    rho = 0.3  # Lower evaporation rate to preserve good solutions
+    Q = 150  # Higher pheromone deposit constant
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",False,N/A,7.488486051559448,[],2025-04-17 20:18:06
+A-n45-k6,1,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for medium-sized CVRP with ~45 locations
+    """"""
+    num_ants = 15  # Balanced exploration/exploitation
+    num_iterations = 150  # Sufficient iterations for convergence
+    alpha = 1.0  # Standard pheromone influence
+    beta = 2.5  # Strong heuristic bias for distance
+    rho = 0.4  # Moderate evaporation rate
+    Q = 120  # Balanced pheromone deposit
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",False,N/A,5.088810920715332,[],2025-04-17 20:18:11
+A-n45-k6,2,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for CVRP with 45 locations and 6 vehicles
+    """"""
+    num_ants = 18  # Increased ants for better exploration
+    num_iterations = 180  # More iterations for convergence
+    alpha = 1.1  # Balanced pheromone influence
+    beta = 2.8  # Strong distance heuristic bias
+    rho = 0.35  # Moderate evaporation rate
+    Q = 130  # Adjusted pheromone deposit
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",False,N/A,6.498265027999878,[],2025-04-17 20:18:18
+A-n45-k6,3,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for large CVRP with 45 locations
+    """"""
+    num_ants = 25  # More ants for better solution space coverage
+    num_iterations = 250  # Increased iterations for convergence
+    alpha = 1.5  # Higher pheromone influence to reinforce good paths
+    beta = 3.5  # Stronger distance heuristic bias
+    rho = 0.2  # Lower evaporation to preserve pheromone trails longer
+    Q = 200  # Higher pheromone deposit to emphasize good solutions
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",False,N/A,10.757304906845093,[],2025-04-17 20:18:28
+A-n45-k6,4,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for CVRP with 45 locations and 6 vehicles
+    """"""
+    num_ants = 12  # Balanced exploration for problem size
+    num_iterations = 120  # Sufficient iterations for convergence
+    alpha = 1.0  # Standard pheromone influence
+    beta = 2.2  # Moderate distance heuristic bias
+    rho = 0.45  # Slightly higher evaporation rate
+    Q = 110  # Balanced pheromone deposit
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",False,N/A,3.9518609046936035,[],2025-04-17 20:18:32
+A-n48-k7,0,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for better exploration/exploitation balance
+    """"""
+    num_ants = 20
+    num_iterations = 200
+    alpha = 1.2
+    beta = 3.0
+    rho = 0.3
+    Q = 150
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1301.441901073991,8.137025117874146,"[[0, 18, 44, 35, 23, 43, 31, 5, 22, 7, 0], [0, 14, 17, 41, 2, 10, 33, 0], [0, 40, 45, 27, 15, 39, 26, 20, 0], [0, 12, 1, 6, 25, 19, 0], [0, 46, 13, 30, 21, 29, 42, 11, 4, 24, 9, 34, 32, 0], [0, 36, 37, 38, 3, 8, 28, 0], [0, 16, 47, 0]]",2025-04-17 20:19:26
+A-n48-k7,1,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Adjusted parameters for larger problem size with better exploration
+    """"""
+    num_ants = 30
+    num_iterations = 300
+    alpha = 1.5
+    beta = 4.0
+    rho = 0.2
+    Q = 200
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1292.732028284338,15.857882976531982,"[[0, 14, 17, 41, 2, 10, 33, 0], [0, 18, 44, 35, 23, 43, 31, 5, 22, 32, 0], [0, 12, 1, 6, 25, 19, 0], [0, 4, 24, 29, 21, 30, 13, 46, 11, 42, 9, 34, 7, 0], [0, 45, 27, 15, 8, 39, 26, 3, 0], [0, 40, 36, 37, 38, 20, 28, 0], [0, 16, 47, 0]]",2025-04-17 20:19:42
+A-n48-k7,2,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Balanced parameters for medium-sized CVRP with 48 locations
+    """"""
+    num_ants = 15
+    num_iterations = 150
+    alpha = 1.0
+    beta = 3.5
+    rho = 0.4
+    Q = 120
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1275.2717858099825,5.470314025878906,"[[0, 18, 44, 35, 32, 36, 7, 40, 45, 29, 0], [0, 14, 17, 41, 2, 10, 33, 0], [0, 23, 43, 31, 5, 1, 6, 22, 0], [0, 27, 15, 8, 39, 26, 20, 3, 0], [0, 11, 4, 13, 46, 30, 21, 24, 42, 9, 34, 0], [0, 12, 19, 38, 25, 37, 28, 0], [0, 16, 47, 0]]",2025-04-17 20:19:47
+A-n48-k7,3,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for 48-location CVRP with balanced exploration/exploitation
+    """"""
+    num_ants = 25
+    num_iterations = 250
+    alpha = 1.3
+    beta = 3.2
+    rho = 0.25
+    Q = 180
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1311.3611360862046,11.730921030044556,"[[0, 14, 17, 47, 16, 28, 34, 9, 24, 42, 0], [0, 18, 44, 35, 23, 43, 31, 5, 22, 32, 0], [0, 41, 2, 10, 33, 30, 21, 29, 7, 0], [0, 40, 45, 27, 15, 8, 39, 3, 0], [0, 46, 13, 4, 11, 20, 26, 19, 0], [0, 36, 37, 25, 38, 6, 0], [0, 12, 1, 0]]",2025-04-17 20:19:59
+A-n48-k7,4,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for 48-location CVRP with enhanced exploration
+    """"""
+    num_ants = 18
+    num_iterations = 180
+    alpha = 1.1
+    beta = 3.8
+    rho = 0.35
+    Q = 130
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1331.2017626612046,7.0457682609558105,"[[0, 14, 17, 41, 2, 10, 33, 0], [0, 18, 44, 35, 23, 43, 31, 12, 22, 32, 0], [0, 36, 7, 45, 27, 15, 8, 3, 0], [0, 39, 26, 20, 42, 11, 4, 13, 46, 29, 0], [0, 40, 9, 24, 30, 21, 34, 28, 47, 16, 0], [0, 6, 1, 5, 38, 19, 0], [0, 37, 25, 0]]",2025-04-17 20:20:06
+A-n53-k7,0,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for better exploration/exploitation balance
+    """"""
+    num_ants = 20
+    num_iterations = 200
+    alpha = 1.5  # Increased pheromone importance
+    beta = 3.0   # Increased heuristic importance
+    rho = 0.3    # Lower evaporation rate for better convergence
+    Q = 150      # Higher pheromone deposit constant
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",False,N/A,9.075906038284302,[],2025-04-17 20:20:59
+A-n53-k7,1,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Balanced parameters for medium-sized CVRP instances
+    """"""
+    num_ants = 15
+    num_iterations = 150
+    alpha = 1.2
+    beta = 2.5
+    rho = 0.4
+    Q = 120
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1155.940694074493,5.991521596908569,"[[0, 1, 4, 28, 22, 30, 44, 29, 49, 36, 50, 43, 23, 19, 15, 32, 16, 7, 25, 39, 0], [0, 51, 27, 8, 46, 35, 0], [0, 33, 3, 5, 14, 34, 0], [0, 31, 20, 6, 38, 18, 40, 26, 0], [0, 21, 13, 52, 11, 24, 41, 0], [0, 10, 37, 2, 42, 48, 0], [0, 47, 9, 17, 12, 45, 0]]",2025-04-17 20:21:05
+A-n53-k7,2,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Adjusted parameters for better performance on larger instances
+    """"""
+    num_ants = 25
+    num_iterations = 250
+    alpha = 1.3
+    beta = 2.8
+    rho = 0.35
+    Q = 180
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1179.975339532649,13.220732927322388,"[[0, 1, 4, 28, 22, 30, 44, 29, 49, 36, 50, 43, 23, 19, 15, 32, 16, 7, 25, 39, 0], [0, 46, 8, 27, 35, 51, 0], [0, 31, 20, 6, 38, 18, 40, 26, 0], [0, 33, 3, 5, 14, 34, 0], [0, 21, 13, 52, 11, 24, 41, 0], [0, 47, 9, 17, 12, 45, 48, 0], [0, 10, 37, 2, 42, 0]]",2025-04-17 20:21:19
+A-n53-k7,3,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for the given dataset characteristics
+    """"""
+    num_ants = 18
+    num_iterations = 180
+    alpha = 1.4
+    beta = 2.7
+    rho = 0.38
+    Q = 130
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1182.0312642641984,7.775810718536377,"[[0, 1, 4, 28, 22, 30, 44, 29, 49, 36, 50, 43, 23, 19, 15, 32, 16, 7, 25, 39, 0], [0, 31, 20, 6, 35, 38, 18, 51, 0], [0, 33, 3, 5, 14, 34, 0], [0, 21, 13, 52, 11, 24, 41, 0], [0, 27, 8, 46, 37, 2, 0], [0, 10, 26, 40, 42, 48, 0], [0, 47, 9, 17, 12, 45, 0]]",2025-04-17 20:21:26
+A-n53-k7,4,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Parameters optimized for the given dataset with 53 locations
+    """"""
+    num_ants = 30
+    num_iterations = 300
+    alpha = 1.2
+    beta = 2.6
+    rho = 0.35
+    Q = 200
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1167.081872701368,18.31740379333496,"[[0, 1, 4, 28, 22, 30, 44, 29, 49, 36, 50, 43, 23, 19, 15, 32, 16, 7, 25, 39, 0], [0, 21, 13, 52, 24, 11, 9, 0], [0, 31, 20, 6, 35, 38, 18, 51, 0], [0, 47, 17, 41, 12, 45, 48, 0], [0, 33, 3, 5, 14, 34, 0], [0, 10, 26, 40, 8, 27, 0], [0, 46, 37, 2, 42, 0]]",2025-04-17 20:21:45
+A-n63-k10,0,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for better convergence and exploration
+    """"""
+    num_ants = 20  # Increased for better exploration
+    num_iterations = 200  # More iterations for convergence
+    alpha = 1.5  # Higher pheromone influence
+    beta = 3  # Stronger heuristic bias
+    rho = 0.3  # Lower evaporation rate
+    Q = 150  # Higher pheromone deposit
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1712.3534531948474,11.293606996536255,"[[0, 48, 36, 52, 30, 4, 50, 7, 45, 0], [0, 17, 62, 31, 24, 23, 61, 21, 0], [0, 20, 26, 13, 28, 57, 44, 0], [0, 43, 38, 32, 47, 34, 11, 51, 58, 54, 29, 0], [0, 10, 59, 18, 5, 19, 42, 3, 39, 1, 41, 0], [0, 56, 40, 25, 15, 49, 53, 0], [0, 22, 55, 33, 35, 0], [0, 46, 60, 8, 0], [0, 2, 9, 12, 6, 27, 0], [0, 16, 37, 14, 0]]",2025-04-17 20:22:43
+A-n63-k10,1,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Balanced parameters for exploration and exploitation
+    """"""
+    num_ants = 15
+    num_iterations = 150
+    alpha = 1.2
+    beta = 2.5
+    rho = 0.4
+    Q = 120
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1705.1104774209482,7.075974941253662,"[[0, 48, 36, 52, 30, 4, 50, 29, 0], [0, 20, 13, 26, 28, 57, 44, 7, 0], [0, 38, 43, 10, 59, 5, 18, 49, 53, 41, 39, 45, 0], [0, 17, 62, 31, 24, 23, 61, 21, 0], [0, 56, 40, 25, 15, 3, 42, 19, 0], [0, 46, 60, 8, 0], [0, 32, 34, 11, 47, 51, 58, 22, 54, 0], [0, 16, 37, 55, 33, 0], [0, 27, 35, 6, 9, 2, 0], [0, 14, 1, 12, 0]]",2025-04-17 20:22:50
+A-n63-k10,2,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters based on problem size and characteristics
+    """"""
+    num_ants = 25  # Larger colony size for better exploration
+    num_iterations = 250  # More iterations for convergence
+    alpha = 1.3  # Balanced pheromone influence
+    beta = 2.8  # Stronger heuristic bias for larger problem
+    rho = 0.35  # Moderate evaporation rate
+    Q = 200  # Higher pheromone deposit for larger distances
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1646.8737856608332,16.4856379032135,"[[0, 48, 36, 52, 30, 4, 50, 29, 0], [0, 17, 62, 31, 24, 23, 61, 21, 7, 0], [0, 14, 2, 9, 12, 6, 41, 39, 45, 0], [0, 20, 26, 13, 28, 57, 44, 0], [0, 56, 40, 25, 15, 49, 53, 18, 0], [0, 43, 38, 32, 47, 34, 11, 51, 58, 54, 0], [0, 46, 60, 8, 0], [0, 10, 59, 5, 19, 3, 42, 1, 0], [0, 16, 37, 35, 27, 0], [0, 22, 55, 33, 0]]",2025-04-17 20:23:06
+A-n63-k10,3,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for medium-sized CVRP
+    """"""
+    num_ants = 18
+    num_iterations = 180
+    alpha = 1.4
+    beta = 2.6
+    rho = 0.35
+    Q = 130
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1676.6138562320566,9.409256935119629,"[[0, 48, 36, 52, 30, 4, 50, 29, 0], [0, 38, 43, 59, 10, 3, 42, 19, 5, 39, 45, 41, 0], [0, 17, 62, 31, 24, 23, 61, 21, 7, 0], [0, 20, 26, 13, 28, 57, 44, 0], [0, 56, 40, 25, 15, 49, 18, 53, 0], [0, 32, 34, 11, 47, 58, 22, 51, 6, 0], [0, 46, 60, 54, 0], [0, 14, 12, 9, 2, 1, 0], [0, 37, 16, 8, 35, 27, 0], [0, 33, 55, 0]]",2025-04-17 20:23:16
+A-n63-k10,4,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for large CVRP with 63 locations
+    """"""
+    num_ants = 30
+    num_iterations = 300
+    alpha = 1.2
+    beta = 3.0
+    rho = 0.25
+    Q = 250
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,1656.7330384607828,22.745212078094482,"[[0, 48, 36, 52, 30, 4, 50, 29, 0], [0, 17, 62, 31, 24, 23, 61, 21, 7, 0], [0, 46, 60, 54, 39, 45, 41, 0], [0, 20, 26, 13, 28, 57, 44, 0], [0, 38, 32, 34, 11, 47, 51, 58, 22, 0], [0, 43, 10, 59, 5, 19, 42, 3, 1, 49, 0], [0, 56, 40, 25, 15, 18, 53, 0], [0, 37, 16, 14, 12, 9, 0], [0, 27, 35, 8, 6, 2, 0], [0, 33, 55, 0]]",2025-04-17 20:23:38
+A-n80-k10,0,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters based on problem size and characteristics
+    """"""
+    num_ants = 20  # Increased exploration
+    num_iterations = 200  # More iterations for better convergence
+    alpha = 1.2  # Slightly higher pheromone influence
+    beta = 2.5  # Stronger heuristic bias
+    rho = 0.3  # Lower evaporation rate to preserve good solutions
+    Q = 150  # Higher pheromone deposit constant
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,2173.492292232785,15.899205923080444,"[[0, 13, 42, 51, 77, 3, 74, 60, 31, 78, 33, 0], [0, 49, 73, 36, 53, 66, 67, 70, 58, 32, 50, 72, 0], [0, 40, 21, 12, 44, 5, 23, 62, 52, 0], [0, 38, 76, 22, 45, 4, 54, 15, 47, 65, 0], [0, 10, 71, 14, 48, 18, 79, 28, 0], [0, 63, 11, 34, 24, 6, 30, 59, 0], [0, 2, 37, 8, 68, 16, 43, 61, 20, 0], [0, 39, 17, 27, 57, 19, 26, 35, 69, 56, 0], [0, 64, 41, 25, 46, 75, 55, 9, 29, 0], [0, 1, 7, 0]]",2025-04-17 20:24:47
+A-n80-k10,1,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for large problem size (80 locations)
+    """"""
+    num_ants = 30  # More ants for better exploration
+    num_iterations = 300  # More iterations needed for convergence
+    alpha = 1.0  # Balanced pheromone influence
+    beta = 3.0  # Stronger distance heuristic bias
+    rho = 0.2  # Lower evaporation to preserve good paths
+    Q = 200  # Higher pheromone deposit for better reinforcement
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,2126.5542996859513,33.77080416679382,"[[0, 49, 73, 36, 42, 51, 77, 3, 29, 31, 0], [0, 13, 53, 67, 66, 70, 38, 58, 50, 76, 0], [0, 37, 2, 8, 68, 16, 43, 61, 20, 0], [0, 40, 21, 1, 7, 10, 71, 14, 33, 0], [0, 12, 44, 5, 23, 62, 63, 24, 34, 0], [0, 6, 30, 78, 75, 19, 47, 56, 69, 26, 65, 35, 57, 0], [0, 74, 60, 39, 17, 27, 59, 0], [0, 64, 46, 25, 41, 15, 55, 9, 54, 72, 32, 4, 0], [0, 11, 52, 28, 79, 48, 18, 0], [0, 45, 22, 0]]",2025-04-17 20:25:21
+A-n80-k10,2,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for medium-sized CVRP (80 locations)
+    """"""
+    num_ants = 25  # Balanced exploration
+    num_iterations = 250  # Sufficient iterations for convergence
+    alpha = 1.1  # Moderate pheromone influence
+    beta = 2.8  # Strong distance heuristic
+    rho = 0.25  # Moderate evaporation rate
+    Q = 180  # Adequate pheromone deposit
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,2126.2769612579173,23.41593599319458,"[[0, 49, 73, 36, 53, 67, 66, 70, 58, 50, 72, 54, 33, 15, 47, 65, 0], [0, 40, 21, 1, 7, 10, 71, 14, 0], [0, 13, 42, 51, 77, 3, 74, 29, 44, 31, 0], [0, 38, 76, 45, 22, 32, 4, 0], [0, 61, 57, 75, 20, 59, 27, 30, 0], [0, 62, 23, 12, 5, 6, 24, 34, 52, 0], [0, 9, 55, 56, 69, 19, 26, 35, 16, 43, 68, 8, 78, 0], [0, 39, 60, 17, 46, 25, 41, 64, 0], [0, 18, 48, 79, 28, 11, 0], [0, 63, 2, 37, 0]]",2025-04-17 20:25:45
+A-n80-k10,3,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for large problem with 80 locations
+    """"""
+    num_ants = 40  # Increased exploration for large problem
+    num_iterations = 500  # More iterations needed for convergence
+    alpha = 1.5  # Higher pheromone influence to reinforce good paths
+    beta = 3.5  # Strong distance heuristic bias
+    rho = 0.1  # Lower evaporation to preserve good solutions longer
+    Q = 250  # Higher pheromone deposit for stronger reinforcement
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,2118.391786416212,73.17368912696838,"[[0, 49, 73, 36, 42, 51, 77, 3, 29, 31, 0], [0, 40, 21, 1, 7, 10, 71, 14, 33, 0], [0, 13, 53, 67, 66, 70, 38, 58, 50, 76, 0], [0, 64, 46, 25, 41, 15, 55, 9, 54, 72, 32, 4, 0], [0, 61, 57, 19, 26, 35, 65, 69, 56, 47, 75, 16, 43, 78, 34, 0], [0, 18, 48, 79, 28, 52, 11, 0], [0, 39, 60, 74, 17, 27, 59, 0], [0, 62, 23, 12, 44, 5, 30, 6, 0], [0, 63, 24, 37, 2, 8, 68, 20, 0], [0, 22, 45, 0]]",2025-04-17 20:26:58
+A-n80-k10,4,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    Optimized parameters for large CVRP with 80 locations
+    """"""
+    num_ants = 35  # Balanced exploration-exploitation
+    num_iterations = 400  # Sufficient convergence time
+    alpha = 1.3  # Moderate pheromone influence
+    beta = 3.2  # Strong distance heuristic
+    rho = 0.15  # Lower evaporation to preserve good paths
+    Q = 220  # Adequate pheromone reinforcement
+    return num_ants, num_iterations, alpha, beta, rho, Q
+```",True,2088.9413872021164,51.775630950927734,"[[0, 49, 73, 36, 42, 51, 77, 3, 29, 31, 0], [0, 13, 53, 67, 66, 70, 38, 58, 50, 76, 0], [0, 74, 60, 39, 17, 27, 59, 33, 0], [0, 40, 21, 7, 1, 10, 71, 14, 0], [0, 62, 23, 12, 44, 5, 30, 6, 0], [0, 64, 46, 25, 41, 15, 55, 9, 54, 72, 32, 4, 0], [0, 18, 48, 79, 28, 52, 34, 24, 78, 75, 0], [0, 63, 11, 2, 37, 8, 68, 16, 43, 0], [0, 61, 57, 19, 47, 56, 69, 65, 35, 26, 20, 0], [0, 22, 45, 0]]",2025-04-17 20:27:50

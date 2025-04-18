@@ -1,0 +1,85 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"
+```python
+@funsearch.evolve
+def fitness(ctx: ConstructionContext) -> float:
+    # 这是遗传算法的适应度, 可根据ctx自行调整!
+    return sum(
+    distance_matrix[route[i]][route[i + 1]]
+    for route in individual
+    for i in range(len(route) - 1)
+    )
+```
+            ",False,N/A,1.7855768203735352,[],2025-04-18 11:34:42
+A-n37-k5,0,"
+```python
+@funsearch.evolve
+def fitness(ctx: ConstructionContext) -> float:
+    # 这是遗传算法的适应度, 可根据ctx自行调整!
+    return sum(
+    distance_matrix[route[i]][route[i + 1]]
+    for route in individual
+    for i in range(len(route) - 1)
+    )
+```
+            ",False,N/A,1.7952570915222168,[],2025-04-18 11:34:43
+A-n45-k6,0,"
+```python
+@funsearch.evolve
+def fitness(ctx: ConstructionContext) -> float:
+    # 这是遗传算法的适应度, 可根据ctx自行调整!
+    return sum(
+    distance_matrix[route[i]][route[i + 1]]
+    for route in individual
+    for i in range(len(route) - 1)
+    )
+```
+            ",False,N/A,1.7914979457855225,[],2025-04-18 11:34:45
+A-n48-k7,0,"
+```python
+@funsearch.evolve
+def fitness(ctx: ConstructionContext) -> float:
+    # 这是遗传算法的适应度, 可根据ctx自行调整!
+    return sum(
+    distance_matrix[route[i]][route[i + 1]]
+    for route in individual
+    for i in range(len(route) - 1)
+    )
+```
+            ",False,N/A,1.8066489696502686,[],2025-04-18 11:34:47
+A-n53-k7,0,"
+```python
+@funsearch.evolve
+def fitness(ctx: ConstructionContext) -> float:
+    # 这是遗传算法的适应度, 可根据ctx自行调整!
+    return sum(
+    distance_matrix[route[i]][route[i + 1]]
+    for route in individual
+    for i in range(len(route) - 1)
+    )
+```
+            ",False,N/A,1.7858731746673584,[],2025-04-18 11:34:49
+A-n63-k10,0,"
+```python
+@funsearch.evolve
+def fitness(ctx: ConstructionContext) -> float:
+    # 这是遗传算法的适应度, 可根据ctx自行调整!
+    return sum(
+    distance_matrix[route[i]][route[i + 1]]
+    for route in individual
+    for i in range(len(route) - 1)
+    )
+```
+            ",False,N/A,1.7881882190704346,[],2025-04-18 11:34:51
+A-n80-k10,0,"
+```python
+@funsearch.evolve
+def fitness(ctx: ConstructionContext) -> float:
+    # 这是遗传算法的适应度, 可根据ctx自行调整!
+    return sum(
+    distance_matrix[route[i]][route[i + 1]]
+    for route in individual
+    for i in range(len(route) - 1)
+    )
+```
+            ",False,N/A,1.6361498832702637,[],2025-04-18 11:34:52

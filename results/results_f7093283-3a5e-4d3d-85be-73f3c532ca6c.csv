@@ -1,0 +1,57 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # 可调整权重构建策略
+    return 1.0 * ctx.distance
+```
+            ",False,N/A,1.7678940296173096,[],2025-04-18 11:28:19
+A-n37-k5,0,"
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # 可调整权重构建策略
+    return 1.0 * ctx.distance
+```
+            ",False,N/A,1.7974939346313477,[],2025-04-18 11:28:21
+A-n45-k6,0,"
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # 可调整权重构建策略
+    return 1.0 * ctx.distance
+```
+            ",False,N/A,1.785285234451294,[],2025-04-18 11:28:23
+A-n48-k7,0,"
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # 可调整权重构建策略
+    return 1.0 * ctx.distance
+```
+            ",False,N/A,1.7937390804290771,[],2025-04-18 11:28:25
+A-n53-k7,0,"
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # 可调整权重构建策略
+    return 1.0 * ctx.distance
+```
+            ",False,N/A,1.8023827075958252,[],2025-04-18 11:28:27
+A-n63-k10,0,"
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # 可调整权重构建策略
+    return 1.0 * ctx.distance
+```
+            ",False,N/A,1.7729463577270508,[],2025-04-18 11:28:28
+A-n80-k10,0,"
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # 可调整权重构建策略
+    return 1.0 * ctx.distance
+```
+            ",False,N/A,1.7893199920654297,[],2025-04-18 11:28:30

@@ -1,0 +1,219 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+X-n110-k13,0,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combined distance and demand ratio with vehicle capacity consideration
+    return 0.7 * ctx.distance + 0.3 * (ctx.demand / max(1, ctx.vehicle_capacity - ctx.vehicle_load))
+```",True,18799.332622874157,12.800002098083496,"[[0, 91, 5, 46, 89, 108, 3, 14, 0], [0, 49, 19, 58, 12, 41, 68, 54, 50, 52, 0], [0, 6, 84, 24, 4, 101, 103, 25, 18, 109, 69, 0], [0, 38, 105, 32, 79, 1, 90, 16, 70, 100, 0], [0, 71, 80, 60, 61, 22, 83, 76, 55, 56, 30, 0], [0, 62, 8, 40, 47, 86, 10, 63, 72, 75, 0], [0, 77, 11, 85, 51, 98, 106, 34, 45, 67, 0], [0, 39, 28, 31, 17, 27, 65, 36, 99, 0], [0, 2, 43, 93, 104, 64, 59, 95, 96, 35, 0], [0, 23, 13, 57, 82, 107, 7, 48, 0], [0, 42, 66, 15, 53, 26, 87, 9, 33, 102, 0], [0, 21, 73, 37, 94, 81, 44, 29, 78, 0], [0, 92, 97, 20, 74, 88, 0]]",2025-04-17 21:02:59
+X-n110-k13,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Distance-normalized score with capacity utilization bonus
+    return ctx.distance * (1 - ctx.vehicle_load/ctx.vehicle_capacity)
+```",True,18799.332622874157,12.763626098632812,"[[0, 91, 5, 46, 89, 108, 3, 14, 0], [0, 49, 19, 58, 12, 41, 68, 54, 50, 52, 0], [0, 6, 84, 24, 4, 101, 103, 25, 18, 109, 69, 0], [0, 38, 105, 32, 79, 1, 90, 16, 70, 100, 0], [0, 71, 80, 60, 61, 22, 83, 76, 55, 56, 30, 0], [0, 62, 8, 40, 47, 86, 10, 63, 72, 75, 0], [0, 77, 11, 85, 51, 98, 106, 34, 45, 67, 0], [0, 39, 28, 31, 17, 27, 65, 36, 99, 0], [0, 2, 43, 93, 104, 64, 59, 95, 96, 35, 0], [0, 23, 13, 57, 82, 107, 7, 48, 0], [0, 42, 66, 15, 53, 26, 87, 9, 33, 102, 0], [0, 21, 73, 37, 94, 81, 44, 29, 78, 0], [0, 92, 97, 20, 74, 88, 0]]",2025-04-17 21:03:12
+X-n110-k13,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Balanced score considering both distance and capacity utilization
+    return 0.5 * ctx.distance + 0.5 * (ctx.demand / (ctx.vehicle_capacity - ctx.vehicle_load + 1e-6))
+```",True,18799.332622874157,12.968551874160767,"[[0, 91, 5, 46, 89, 108, 3, 14, 0], [0, 49, 19, 58, 12, 41, 68, 54, 50, 52, 0], [0, 6, 84, 24, 4, 101, 103, 25, 18, 109, 69, 0], [0, 38, 105, 32, 79, 1, 90, 16, 70, 100, 0], [0, 71, 80, 60, 61, 22, 83, 76, 55, 56, 30, 0], [0, 62, 8, 40, 47, 86, 10, 63, 72, 75, 0], [0, 77, 11, 85, 51, 98, 106, 34, 45, 67, 0], [0, 39, 28, 31, 17, 27, 65, 36, 99, 0], [0, 2, 43, 93, 104, 64, 59, 95, 96, 35, 0], [0, 23, 13, 57, 82, 107, 7, 48, 0], [0, 42, 66, 15, 53, 26, 87, 9, 33, 102, 0], [0, 21, 73, 37, 94, 81, 44, 29, 78, 0], [0, 92, 97, 20, 74, 88, 0]]",2025-04-17 21:03:25
+X-n110-k13,3,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Distance-adjusted score with exponential capacity consideration
+    return ctx.distance * np.exp(-0.5 * (ctx.vehicle_capacity - ctx.vehicle_load) / ctx.vehicle_capacity)
+```",True,18799.332622874157,13.042281866073608,"[[0, 91, 5, 46, 89, 108, 3, 14, 0], [0, 49, 19, 58, 12, 41, 68, 54, 50, 52, 0], [0, 6, 84, 24, 4, 101, 103, 25, 18, 109, 69, 0], [0, 38, 105, 32, 79, 1, 90, 16, 70, 100, 0], [0, 71, 80, 60, 61, 22, 83, 76, 55, 56, 30, 0], [0, 62, 8, 40, 47, 86, 10, 63, 72, 75, 0], [0, 77, 11, 85, 51, 98, 106, 34, 45, 67, 0], [0, 39, 28, 31, 17, 27, 65, 36, 99, 0], [0, 2, 43, 93, 104, 64, 59, 95, 96, 35, 0], [0, 23, 13, 57, 82, 107, 7, 48, 0], [0, 42, 66, 15, 53, 26, 87, 9, 33, 102, 0], [0, 21, 73, 37, 94, 81, 44, 29, 78, 0], [0, 92, 97, 20, 74, 88, 0]]",2025-04-17 21:03:38
+X-n110-k13,4,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Dynamic weighting based on remaining capacity
+    capacity_ratio = (ctx.vehicle_capacity - ctx.vehicle_load) / ctx.vehicle_capacity
+    distance_weight = 0.3 + 0.7 * capacity_ratio  # More weight to distance when capacity is tight
+    demand_weight = 1 - distance_weight
+    return distance_weight * ctx.distance + demand_weight * ctx.demand
+```",True,18348.059543369043,13.195861339569092,"[[0, 91, 5, 46, 89, 108, 3, 14, 0], [0, 49, 19, 58, 12, 41, 68, 54, 50, 52, 0], [0, 6, 84, 24, 4, 101, 103, 25, 18, 109, 69, 0], [0, 38, 105, 32, 79, 1, 90, 16, 70, 100, 0], [0, 71, 80, 60, 61, 22, 83, 76, 55, 56, 30, 0], [0, 62, 8, 40, 47, 86, 10, 63, 72, 75, 0], [0, 77, 11, 85, 51, 98, 106, 34, 45, 67, 0], [0, 39, 28, 31, 17, 27, 65, 36, 99, 0], [0, 2, 43, 93, 104, 64, 59, 95, 96, 35, 0], [0, 23, 13, 57, 82, 107, 7, 48, 0], [0, 42, 66, 15, 53, 26, 87, 9, 33, 102, 0], [0, 73, 37, 94, 81, 44, 29, 78, 74, 0], [0, 92, 97, 20, 21, 88, 0]]",2025-04-17 21:03:51
+X-n115-k10,0,"Here's the improved `construction_heuristic` function that incorporates both distance and vehicle load utilization:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combined heuristic considering both distance and vehicle load utilization
+    distance_weight = 0.7
+    utilization_weight = 0.3
+    normalized_distance = ctx.distance / np.max(ctx.locations)
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return distance_weight * normalized_distance - utilization_weight * utilization
+```
+
+This implementation:
+1. Uses a weighted combination of distance and vehicle load utilization
+2. Normalizes the distance by dividing by maximum possible distance
+3. Encourages better vehicle capacity utilization while still considering proximity
+4. Uses negative weight for utilization since we want to maximize it (but minimize the score)
+
+The weights (0.7 and 0.3) can be adjusted based on problem characteristics.",True,15441.224603223563,35.0715970993042,"[[0, 10, 42, 59, 95, 107, 92, 57, 100, 28, 78, 53, 29, 52, 0], [0, 15, 32, 89, 17, 66, 16, 104, 41, 91, 2, 110, 21, 50, 0], [0, 34, 63, 7, 1, 74, 64, 46, 0], [0, 111, 112, 85, 26, 72, 24, 102, 69, 11, 31, 56, 36, 70, 13, 0], [0, 35, 99, 49, 109, 18, 93, 3, 47, 79, 87, 73, 48, 108, 106, 0], [0, 9, 54, 20, 101, 4, 0], [0, 82, 88, 105, 27, 44, 30, 114, 8, 14, 68, 43, 40, 67, 39, 90, 37, 98, 71, 76, 55, 80, 97, 0], [0, 5, 19, 6, 60, 86, 0], [0, 25, 51, 22, 96, 23, 65, 45, 12, 113, 58, 77, 38, 81, 33, 61, 103, 84, 83, 75, 0], [0, 62, 94, 0]]",2025-04-17 21:05:22
+X-n115-k10,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Enhanced heuristic combining distance, demand and spatial distribution
+    distance_score = ctx.distance / np.max(ctx.locations)
+    demand_score = ctx.demand / ctx.vehicle_capacity
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return 0.5 * distance_score + 0.3 * (1 - utilization) + 0.2 * demand_score
+```",True,18569.223293330517,43.08927607536316,"[[0, 15, 32, 10, 42, 59, 95, 107, 92, 57, 100, 54, 28, 78, 53, 0], [0, 50, 52, 29, 9, 88, 82, 21, 111, 110, 112, 105, 27, 44, 30, 114, 94, 20, 101, 47, 0], [0, 84, 75, 14, 68, 43, 40, 67, 39, 90, 37, 71, 98, 7, 74, 63, 85, 34, 24, 102, 72, 26, 64, 46, 0], [0, 69, 103, 61, 33, 97, 80, 76, 55, 77, 58, 65, 81, 11, 31, 56, 36, 70, 13, 0], [0, 89, 17, 66, 16, 73, 60, 48, 19, 51, 25, 22, 96, 45, 2, 91, 41, 104, 0], [0, 35, 99, 49, 109, 18, 93, 3, 79, 87, 86, 108, 23, 0], [0, 1, 8, 83, 62, 0], [0, 106, 5, 12, 0], [0, 4, 113, 38, 0], [0, 6, 0]]",2025-04-17 21:06:05
+X-n115-k10,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Enhanced heuristic combining distance, demand and spatial distribution
+    distance_score = ctx.distance / np.max(ctx.locations)
+    demand_score = ctx.demand / ctx.vehicle_capacity
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return 0.5 * distance_score + 0.3 * (1 - utilization) + 0.2 * demand_score
+```",True,18569.223293330517,43.9739830493927,"[[0, 15, 32, 10, 42, 59, 95, 107, 92, 57, 100, 54, 28, 78, 53, 0], [0, 50, 52, 29, 9, 88, 82, 21, 111, 110, 112, 105, 27, 44, 30, 114, 94, 20, 101, 47, 0], [0, 84, 75, 14, 68, 43, 40, 67, 39, 90, 37, 71, 98, 7, 74, 63, 85, 34, 24, 102, 72, 26, 64, 46, 0], [0, 69, 103, 61, 33, 97, 80, 76, 55, 77, 58, 65, 81, 11, 31, 56, 36, 70, 13, 0], [0, 89, 17, 66, 16, 73, 60, 48, 19, 51, 25, 22, 96, 45, 2, 91, 41, 104, 0], [0, 35, 99, 49, 109, 18, 93, 3, 79, 87, 86, 108, 23, 0], [0, 1, 8, 83, 62, 0], [0, 106, 5, 12, 0], [0, 4, 113, 38, 0], [0, 6, 0]]",2025-04-17 21:06:49
+X-n115-k10,3,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Enhanced heuristic with dynamic weights based on remaining capacity
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load
+    capacity_ratio = remaining_capacity / ctx.vehicle_capacity
+    
+    # Dynamic weights - prioritize distance when capacity is tight
+    distance_weight = 0.3 + 0.5 * capacity_ratio
+    utilization_weight = 0.7 - 0.5 * capacity_ratio
+    
+    normalized_distance = ctx.distance / np.max(ctx.locations)
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return distance_weight * normalized_distance - utilization_weight * utilization
+```",True,17919.18919315282,35.52287483215332,"[[0, 15, 10, 28, 9, 0], [0, 50, 52, 21, 82, 88, 53, 78, 57, 4, 92, 107, 95, 0], [0, 46, 64, 26, 72, 34, 74, 1, 98, 24, 102, 61, 103, 31, 56, 36, 70, 69, 0], [0, 13, 11, 76, 7, 63, 0], [0, 3, 93, 18, 100, 62, 54, 114, 30, 44, 27, 105, 112, 110, 111, 0], [0, 32, 89, 17, 66, 16, 25, 51, 22, 96, 65, 2, 91, 41, 104, 0], [0, 29, 59, 42, 35, 99, 49, 109, 47, 79, 106, 73, 87, 86, 60, 48, 6, 108, 19, 81, 58, 40, 0], [0, 23, 45, 12, 113, 33, 77, 38, 97, 80, 55, 71, 37, 39, 67, 43, 68, 90, 85, 0], [0, 5, 94, 75, 83, 8, 14, 84, 0], [0, 20, 101, 0]]",2025-04-17 21:07:25
+X-n115-k10,4,"Here's the improved `construction_heuristic` function:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Enhanced heuristic combining distance, demand and spatial distribution
+    distance_score = ctx.distance / np.max(ctx.locations)
+    demand_score = ctx.demand / ctx.vehicle_capacity
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return 0.5 * distance_score + 0.3 * (1 - utilization) + 0.2 * demand_score
+```",True,18569.223293330517,43.37821626663208,"[[0, 15, 32, 10, 42, 59, 95, 107, 92, 57, 100, 54, 28, 78, 53, 0], [0, 50, 52, 29, 9, 88, 82, 21, 111, 110, 112, 105, 27, 44, 30, 114, 94, 20, 101, 47, 0], [0, 84, 75, 14, 68, 43, 40, 67, 39, 90, 37, 71, 98, 7, 74, 63, 85, 34, 24, 102, 72, 26, 64, 46, 0], [0, 69, 103, 61, 33, 97, 80, 76, 55, 77, 58, 65, 81, 11, 31, 56, 36, 70, 13, 0], [0, 89, 17, 66, 16, 73, 60, 48, 19, 51, 25, 22, 96, 45, 2, 91, 41, 104, 0], [0, 35, 99, 49, 109, 18, 93, 3, 79, 87, 86, 108, 23, 0], [0, 1, 8, 83, 62, 0], [0, 106, 5, 12, 0], [0, 4, 113, 38, 0], [0, 6, 0]]",2025-04-17 21:08:08
+X-n120-k6,0,"Here's the improved `construction_heuristic` function that incorporates both distance and vehicle load utilization:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combined heuristic: distance + normalized remaining capacity
+    distance_weight = 1.0
+    capacity_weight = 0.5  # Adjustable weight for capacity utilization
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load - ctx.demand
+    normalized_capacity = remaining_capacity / ctx.vehicle_capacity
+    
+    return distance_weight * ctx.distance - capacity_weight * normalized_capacity
+```",True,15059.450472239805,60.03764295578003,"[[0, 20, 116, 107, 61, 119, 10, 94, 84, 55, 70, 93, 16, 80, 29, 25, 73, 31, 38, 52, 88, 50, 0], [0, 96, 71, 54, 112, 45, 3, 78, 39, 42, 109, 82, 98, 13, 99, 9, 113, 64, 76, 43, 2, 49, 0], [0, 32, 91, 21, 12, 41, 5, 26, 103, 17, 18, 44, 15, 83, 58, 14, 23, 33, 79, 118, 30, 67, 0], [0, 62, 40, 57, 77, 100, 59, 60, 95, 4, 22, 37, 24, 1, 56, 11, 27, 34, 111, 102, 72, 87, 0], [0, 8, 114, 90, 6, 92, 35, 53, 81, 69, 68, 85, 89, 51, 63, 104, 105, 101, 47, 117, 108, 66, 0], [0, 36, 115, 48, 86, 65, 74, 110, 106, 7, 97, 46, 75, 19, 28, 0]]",2025-04-17 21:10:10
+X-n120-k6,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combined heuristic with adjusted weights
+    distance_weight = 1.0
+    capacity_weight = 0.8  # Higher weight for better capacity utilization
+    proximity_weight = 0.3  # Encourages clustering nearby nodes
+    
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load - ctx.demand
+    normalized_capacity = remaining_capacity / ctx.vehicle_capacity
+    depot_distance = np.linalg.norm(ctx.locations[ctx.candidate] - ctx.locations[ctx.depot])
+    
+    return (distance_weight * ctx.distance 
+            - capacity_weight * normalized_capacity 
+            + proximity_weight * depot_distance)
+```",False,N/A,1.835913896560669,[],2025-04-17 21:10:12
+X-n120-k6,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Balanced heuristic considering distance, capacity and spatial proximity
+    distance_weight = 1.0
+    capacity_weight = 0.7
+    proximity_weight = 0.4
+    
+    remaining_capacity = max(0, ctx.vehicle_capacity - ctx.vehicle_load - ctx.demand)
+    capacity_ratio = remaining_capacity / ctx.vehicle_capacity
+    depot_dist = np.linalg.norm(ctx.locations[ctx.candidate] - ctx.locations[ctx.depot])
+    
+    return (distance_weight * ctx.distance 
+            - capacity_weight * capacity_ratio 
+            + proximity_weight * depot_dist)
+```",False,N/A,1.7849462032318115,[],2025-04-17 21:10:14
+X-n120-k6,3,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Enhanced heuristic with dynamic weights based on remaining capacity
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load - ctx.demand
+    capacity_ratio = remaining_capacity / ctx.vehicle_capacity
+    
+    # Dynamic weights - prioritize capacity when vehicle is nearly full
+    distance_weight = 1.0
+    capacity_weight = 0.5 + (1 - capacity_ratio) * 0.5  # Increases as capacity decreases
+    proximity_weight = 0.3
+    
+    depot_dist = np.linalg.norm(ctx.locations[ctx.candidate] - ctx.locations[ctx.depot])
+    
+    return (distance_weight * ctx.distance 
+            - capacity_weight * capacity_ratio 
+            + proximity_weight * depot_dist)
+```",False,N/A,1.8038380146026611,[],2025-04-17 21:10:16
+X-n120-k6,4,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Enhanced heuristic with dynamic weights and spatial clustering
+    remaining_capacity = max(0.01, ctx.vehicle_capacity - ctx.vehicle_load - ctx.demand)
+    capacity_ratio = remaining_capacity / ctx.vehicle_capacity
+    
+    # Dynamic weights - balance distance and capacity utilization
+    distance_weight = 1.0
+    capacity_weight = 0.7 * (1 + (1 - capacity_ratio))  # Increases as capacity decreases
+    proximity_weight = 0.4
+    
+    depot_dist = np.linalg.norm(ctx.locations[ctx.candidate] - ctx.locations[ctx.depot])
+    normalized_dist = ctx.distance / np.max(ctx.distance_matrix)  # Normalize distance
+    
+    return (distance_weight * normalized_dist 
+            - capacity_weight * capacity_ratio 
+            + proximity_weight * depot_dist)
+```",False,N/A,1.7969942092895508,[],2025-04-17 21:10:18
+X-n139-k10,0,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Improved heuristic combining distance and capacity utilization
+    return 0.7 * ctx.distance + 0.3 * (ctx.vehicle_capacity - ctx.vehicle_load - ctx.demand)
+```",True,16674.063245465568,34.90238404273987,"[[0, 98, 3, 56, 91, 89, 71, 81, 104, 63, 28, 103, 138, 122, 73, 0], [0, 7, 30, 84, 29, 87, 52, 126, 95, 118, 32, 16, 124, 88, 109, 0], [0, 54, 121, 120, 35, 58, 13, 97, 31, 50, 110, 45, 20, 79, 0], [0, 76, 111, 105, 82, 106, 77, 43, 46, 55, 21, 18, 1, 83, 0], [0, 9, 26, 22, 108, 94, 69, 38, 131, 34, 115, 27, 123, 74, 10, 70, 0], [0, 51, 39, 8, 15, 19, 6, 5, 96, 113, 90, 12, 117, 72, 44, 57, 0], [0, 85, 24, 114, 137, 125, 25, 112, 23, 4, 62, 80, 41, 92, 107, 0], [0, 78, 132, 93, 130, 127, 64, 133, 75, 86, 33, 135, 14, 40, 102, 100, 0], [0, 99, 36, 129, 49, 2, 66, 61, 48, 65, 60, 42, 67, 0], [0, 136, 68, 116, 101, 128, 119, 47, 11, 17, 37, 134, 59, 53, 0]]",2025-04-17 21:11:34
+X-n139-k10,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Balance distance and capacity utilization with dynamic weights
+    capacity_utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    return 0.6 * ctx.distance + 0.4 * capacity_utilization * ctx.distance
+```",True,16531.392310370582,35.4752562046051,"[[0, 98, 3, 56, 91, 89, 71, 81, 104, 63, 28, 103, 138, 122, 73, 0], [0, 7, 30, 84, 29, 87, 52, 126, 95, 118, 32, 16, 124, 88, 109, 0], [0, 54, 121, 120, 35, 58, 13, 97, 31, 50, 110, 45, 20, 79, 0], [0, 76, 111, 105, 82, 106, 77, 43, 46, 55, 21, 18, 1, 83, 0], [0, 9, 26, 22, 108, 94, 69, 38, 131, 34, 115, 27, 123, 74, 10, 70, 0], [0, 51, 39, 8, 15, 19, 6, 5, 96, 113, 90, 12, 117, 72, 44, 57, 0], [0, 85, 24, 114, 137, 125, 25, 112, 23, 4, 62, 80, 41, 92, 107, 0], [0, 116, 128, 101, 11, 17, 37, 40, 134, 59, 60, 42, 67, 100, 0], [0, 78, 132, 93, 130, 127, 64, 133, 75, 68, 136, 86, 33, 135, 14, 102, 0], [0, 119, 47, 65, 48, 61, 66, 49, 53, 129, 36, 2, 99, 0]]",2025-04-17 21:12:09
+X-n139-k10,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Weighted combination of distance and demand-to-capacity ratio
+    return ctx.distance * (1 + (ctx.demand / ctx.vehicle_capacity))
+```",True,16531.392310370582,34.89409303665161,"[[0, 98, 3, 56, 91, 89, 71, 81, 104, 63, 28, 103, 138, 122, 73, 0], [0, 7, 30, 84, 29, 87, 52, 126, 95, 118, 32, 16, 124, 88, 109, 0], [0, 54, 121, 120, 35, 58, 13, 97, 31, 50, 110, 45, 20, 79, 0], [0, 76, 111, 105, 82, 106, 77, 43, 46, 55, 21, 18, 1, 83, 0], [0, 9, 26, 22, 108, 94, 69, 38, 131, 34, 115, 27, 123, 74, 10, 70, 0], [0, 51, 39, 8, 15, 19, 6, 5, 96, 113, 90, 12, 117, 72, 44, 57, 0], [0, 85, 24, 114, 137, 125, 25, 112, 23, 4, 62, 80, 41, 92, 107, 0], [0, 116, 128, 101, 11, 17, 37, 40, 134, 59, 60, 42, 67, 100, 0], [0, 78, 132, 93, 130, 127, 64, 133, 75, 68, 136, 86, 33, 135, 14, 102, 0], [0, 119, 47, 65, 48, 61, 66, 49, 53, 129, 36, 2, 99, 0]]",2025-04-17 21:12:44
+X-n139-k10,3,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with normalized capacity pressure
+    capacity_pressure = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    return ctx.distance * (1 + capacity_pressure**2)
+```",True,16612.346342924717,35.054736852645874,"[[0, 98, 3, 56, 91, 89, 71, 81, 104, 63, 28, 103, 138, 122, 73, 0], [0, 7, 30, 84, 29, 87, 52, 126, 95, 118, 32, 16, 124, 88, 109, 0], [0, 54, 121, 120, 35, 58, 13, 97, 31, 50, 110, 45, 20, 79, 0], [0, 76, 111, 105, 82, 106, 77, 43, 46, 55, 21, 18, 1, 83, 0], [0, 9, 26, 22, 108, 94, 69, 38, 131, 34, 115, 27, 123, 74, 10, 70, 0], [0, 51, 39, 8, 15, 19, 6, 5, 96, 113, 90, 12, 117, 72, 44, 57, 0], [0, 85, 24, 114, 137, 125, 25, 112, 23, 4, 62, 80, 41, 92, 107, 0], [0, 78, 132, 93, 130, 127, 64, 133, 75, 86, 33, 135, 14, 40, 102, 100, 0], [0, 67, 42, 60, 59, 134, 37, 17, 11, 101, 128, 116, 68, 136, 0], [0, 119, 47, 65, 48, 61, 66, 49, 53, 129, 36, 2, 99, 0]]",2025-04-17 21:13:19
+X-n139-k10,4,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with demand urgency and capacity utilization
+    capacity_ratio = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    urgency = ctx.demand / max(1, ctx.vehicle_capacity - ctx.vehicle_load)
+    return 0.5 * ctx.distance + 0.3 * capacity_ratio + 0.2 * urgency
+```",True,16612.346342924717,34.64908695220947,"[[0, 98, 3, 56, 91, 89, 71, 81, 104, 63, 28, 103, 138, 122, 73, 0], [0, 7, 30, 84, 29, 87, 52, 126, 95, 118, 32, 16, 124, 88, 109, 0], [0, 54, 121, 120, 35, 58, 13, 97, 31, 50, 110, 45, 20, 79, 0], [0, 76, 111, 105, 82, 106, 77, 43, 46, 55, 21, 18, 1, 83, 0], [0, 9, 26, 22, 108, 94, 69, 38, 131, 34, 115, 27, 123, 74, 10, 70, 0], [0, 51, 39, 8, 15, 19, 6, 5, 96, 113, 90, 12, 117, 72, 44, 57, 0], [0, 85, 24, 114, 137, 125, 25, 112, 23, 4, 62, 80, 41, 92, 107, 0], [0, 78, 132, 93, 130, 127, 64, 133, 75, 86, 33, 135, 14, 40, 102, 100, 0], [0, 67, 42, 60, 59, 134, 37, 17, 11, 101, 128, 116, 68, 136, 0], [0, 119, 47, 65, 48, 61, 66, 49, 53, 129, 36, 2, 99, 0]]",2025-04-17 21:13:54

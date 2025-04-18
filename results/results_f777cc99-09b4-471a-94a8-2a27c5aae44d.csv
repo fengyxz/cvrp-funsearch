@@ -1,0 +1,76 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n45-k6,0,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    仅修改相关参数 
+    必须return num_ants,num_iterations,alpha,beta,rho,Q
+    """"""
+    num_ants=20
+    num_iterations=200
+    alpha=1.5
+    beta=3
+    rho=0.3
+    Q=150
+    return num_ants,num_iterations,alpha,beta,rho,Q
+```",False,N/A,7.667450189590454,[],2025-04-17 21:24:29
+A-n45-k6,1,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    仅修改相关参数 
+    必须return num_ants,num_iterations,alpha,beta,rho,Q
+    """"""
+    num_ants=15
+    num_iterations=150
+    alpha=1.2
+    beta=2.5
+    rho=0.4
+    Q=120
+    return num_ants,num_iterations,alpha,beta,rho,Q
+```",False,N/A,5.01977276802063,[],2025-04-17 21:24:34
+A-n45-k6,2,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    仅修改相关参数 
+    必须return num_ants,num_iterations,alpha,beta,rho,Q
+    """"""
+    num_ants=25
+    num_iterations=250
+    alpha=1.8
+    beta=3.2
+    rho=0.2
+    Q=180
+    return num_ants,num_iterations,alpha,beta,rho,Q
+```",False,N/A,10.658554315567017,[],2025-04-17 21:24:44
+A-n45-k6,3,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    仅修改相关参数 
+    必须return num_ants,num_iterations,alpha,beta,rho,Q
+    """"""
+    num_ants=30
+    num_iterations=300
+    alpha=2.0
+    beta=4.0
+    rho=0.1
+    Q=200
+    return num_ants,num_iterations,alpha,beta,rho,Q
+```",False,N/A,14.718466997146606,[],2025-04-17 21:24:59
+A-n45-k6,4,"```python
+@funsearch.evolve
+def construction_heuristic():
+    """"""
+    仅修改相关参数 
+    必须return num_ants,num_iterations,alpha,beta,rho,Q
+    """"""
+    num_ants=25
+    num_iterations=200
+    alpha=1.2
+    beta=2.8
+    rho=0.35
+    Q=150
+    return num_ants,num_iterations,alpha,beta,rho,Q
+```",False,N/A,8.953593969345093,[],2025-04-17 21:25:08

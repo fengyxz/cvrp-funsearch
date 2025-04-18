@@ -1,0 +1,163 @@
+import numpy as np
+import random
+from typing import List, Tuple
+from dataclasses import dataclass
+
+# =================== FunSearch 框架模拟 ===================
+class FunSearch:
+    def run(self, func): return func
+    def evolve(self, func): return func
+
+funsearch = FunSearch()
+
+# =================== 数据类 ===================
+@dataclass
+class CVRPData:
+    depot: int
+    demand: List[int]
+    distance_matrix: np.ndarray
+    vehicle_capacity: int
+    num_vehicles: int
+
+# =================== 适应度函数 ===================
+@funsearch.evolve
+def fitness(individual: List[List[int]], data: CVRPData) -> float:
+    # 适应度为总路径距离（越小越好）
+    return sum(
+        data.distance_matrix[route[i]][route[i + 1]]
+        for route in individual for i in range(len(route) - 1)
+    )
+
+# =================== 初始化种群 ===================
+def initialize_population(data: CVRPData, pop_size: int) -> List[List[List[int]]]:
+    population = []
+    customers = [i for i in range(len(data.demand)) if i != data.depot]
+
+    for _ in range(pop_size):
+        random.shuffle(customers)
+        routes = []
+        route = [data.depot]
+        load = 0
+
+        for cust in customers:
+            demand = data.demand[cust]
+            if load + demand <= data.vehicle_capacity and len(routes) < data.num_vehicles:
+                route.append(cust)
+                load += demand
+            else:
+                route.append(data.depot)
+                routes.append(route)
+                route = [data.depot, cust]
+                load = demand
+
+        route.append(data.depot)
+        routes.append(route)
+        population.append(routes)
+
+    return population
+
+# =================== 路由划分函数 ===================
+def split_into_routes(customers: List[int], data: CVRPData) -> List[List[int]]:
+    routes = []
+    depot = data.depot
+    i = 0
+    while i < len(customers):
+        route = [depot]
+        load = 0
+        while i < len(customers) and load + data.demand[customers[i]] <= data.vehicle_capacity:
+            load += data.demand[customers[i]]
+            route.append(customers[i])
+            i += 1
+        route.append(depot)
+        routes.append(route)
+    return routes
+
+# =================== 交叉操作 ===================
+def crossover(parent1: List[List[int]], parent2: List[List[int]], data: CVRPData) -> List[List[int]]:
+    customers1 = [c for r in parent1 for c in r[1:-1]]
+    start = random.randint(0, len(customers1) - 1)
+    end = random.randint(start + 1, len(customers1))
+    subset = customers1[start:end]
+
+    customers2 = [c for r in parent2 for c in r[1:-1] if c not in subset]
+    child_seq = subset + customers2
+
+    return split_into_routes(child_seq, data)
+
+# =================== 变异操作 ===================
+def mutate(individual: List[List[int]], mutation_rate: float, data: CVRPData):
+    if random.random() < mutation_rate:
+        if random.random() < 0.5:
+            # Intra-route swap
+            r_idx = random.randint(0, len(individual) - 1)
+            route = individual[r_idx]
+            if len(route) > 3:
+                i, j = random.sample(range(1, len(route) - 1), 2)
+                route[i], route[j] = route[j], route[i]
+        else:
+            # Inter-route move
+            if len(individual) > 1:
+                r1, r2 = random.sample(range(len(individual)), 2)
+                route1, route2 = individual[r1], individual[r2]
+                if len(route1) > 3:
+                    idx = random.randint(1, len(route1) - 2)
+                    cust = route1[idx]
+                    if sum(data.demand[n] for n in route2[1:-1]) + data.demand[cust] <= data.vehicle_capacity:
+                        route1.pop(idx)
+                        route2.insert(-1, cust)
+                        if len(route1) == 2:
+                            individual.pop(r1)
+    return individual
+
+# =================== 主入口函数 ===================
+def solve(data: dict) -> List[List[int]]:
+    cvrp_data = CVRPData(
+        depot=data['depot'],
+        demand=data['demand'],
+        distance_matrix=np.array(data['distance_matrix']),
+        vehicle_capacity=data['vehicle_capacity'],
+        num_vehicles=data['num_vehicles']
+    )
+
+    population_size = 500
+    generations = 1000
+    mutation_rate = 0.1
+    elite_size = 10
+    tournament_size = 5
+
+    population = initialize_population(cvrp_data, population_size)
+
+    def select(population: List[List[List[int]]]) -> List[List[List[int]]]:
+        selected = []
+        for _ in range(population_size // 2):
+            candidates = random.sample(population, tournament_size)
+            winner = min(candidates, key=lambda x: fitness(x, cvrp_data))
+            selected.append(winner)
+        return selected
+
+    for _ in range(generations):
+        population.sort(key=lambda x: fitness(x, cvrp_data))
+        elite = population[:elite_size]
+
+        parents = select(population)
+        children = []
+
+        for i in range(0, len(parents), 2):
+            p1 = parents[i]
+            p2 = parents[i + 1] if i + 1 < len(parents) else random.choice(parents)
+            child = crossover(p1, p2, cvrp_data)
+            child = mutate(child, mutation_rate, cvrp_data)
+            children.append(child)
+
+        population = elite + children
+        while len(population) < population_size:
+            population.append(random.choice(elite))
+
+    best = min(population, key=lambda x: fitness(x, cvrp_data))
+    return best
+
+@funsearch.run
+def evaluate(data):
+    routes = solve(data)
+    return routes
+

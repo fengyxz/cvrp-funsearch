@@ -1,0 +1,539 @@
+dataset,sample_id,response,is_success,total_distance,run_time,routes,timestamp
+A-n32-k5,0,"Here's the improved `construction_heuristic` function that incorporates both distance and demand factors while maintaining feasibility:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance and demand factors with capacity utilization
+    distance_factor = ctx.distance
+    demand_factor = ctx.demand / ctx.vehicle_capacity
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    # Weighted combination favoring closer nodes with higher utilization
+    return distance_factor * (1 + demand_factor) * (1 + utilization)
+```",True,1160.1401126287265,4.63155198097229,"[[0, 30, 26, 16, 12, 1, 7, 18, 22, 29, 14, 0], [0, 27, 24, 8, 10, 25, 5, 20, 0], [0, 11, 4, 28, 23, 2, 3, 6, 0], [0, 13, 21, 31, 19, 17, 9, 0], [0, 15, 0]]",2025-04-18 00:06:37
+A-n32-k5,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance, demand and angular deviation from depot
+    depot_loc = ctx.locations[ctx.depot]
+    current_loc = ctx.locations[ctx.candidate]
+    last_loc = ctx.locations[ctx.candidate]  # Simplified for heuristic
+    
+    # Calculate vectors
+    vec1 = np.array([current_loc[0] - depot_loc[0], current_loc[1] - depot_loc[1]])
+    vec2 = np.array([last_loc[0] - depot_loc[0], last_loc[1] - depot_loc[1]])
+    
+    # Normalize vectors and calculate cosine similarity
+    norm1 = np.linalg.norm(vec1)
+    norm2 = np.linalg.norm(vec2)
+    cosine_sim = np.dot(vec1, vec2) / (norm1 * norm2) if norm1 * norm2 > 0 else 0
+    
+    # Combine factors with weights
+    return (0.6 * ctx.distance + 
+            0.2 * (1 - cosine_sim) + 
+            0.2 * (ctx.demand / ctx.vehicle_capacity))
+```",True,1118.2647889064563,4.365885257720947,"[[0, 30, 26, 16, 12, 1, 7, 18, 22, 29, 14, 0], [0, 27, 24, 8, 10, 25, 5, 20, 0], [0, 13, 21, 31, 19, 17, 3, 23, 0], [0, 6, 2, 28, 4, 11, 9, 0], [0, 15, 0]]",2025-04-18 00:06:41
+A-n32-k5,2,"Here's the improved `construction_heuristic` function that balances distance, demand, and capacity utilization:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Weighted combination of distance, demand and capacity utilization
+    distance_weight = 0.7
+    demand_weight = 0.2
+    utilization_weight = 0.1
+    
+    normalized_distance = ctx.distance / np.max(ctx.distance_matrix) if np.max(ctx.distance_matrix) > 0 else 0
+    normalized_demand = ctx.demand / ctx.vehicle_capacity
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_distance + 
+            demand_weight * normalized_demand + 
+            utilization_weight * utilization)
+```",False,N/A,1.8386869430541992,[],2025-04-18 00:06:43
+A-n32-k5,3,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance and demand with capacity-aware weighting
+    distance_factor = ctx.distance / np.max(ctx.distance_matrix) if np.max(ctx.distance_matrix) > 0 else 0
+    demand_factor = ctx.demand / ctx.vehicle_capacity
+    capacity_utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    # Prioritize closer nodes that better utilize remaining capacity
+    return distance_factor * (1 + demand_factor) * (1 + capacity_utilization)
+```",False,N/A,1.8058879375457764,[],2025-04-18 00:06:45
+A-n32-k5,4,"Here's the improved `construction_heuristic` function that balances distance, demand, and spatial distribution:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Calculate spatial direction factor
+    depot_loc = ctx.locations[ctx.depot]
+    current_loc = ctx.locations[ctx.candidate]
+    vec = np.array([current_loc[0]-depot_loc[0], current_loc[1]-depot_loc[1]])
+    direction_factor = np.linalg.norm(vec) / (1 + abs(vec[0]) + abs(vec[1]))
+    
+    # Combine factors with dynamic weights
+    distance_weight = 0.6
+    demand_weight = 0.2 * (1 - ctx.vehicle_load/ctx.vehicle_capacity)
+    direction_weight = 0.2
+    
+    return (distance_weight * ctx.distance + 
+            demand_weight * ctx.demand + 
+            direction_weight * direction_factor)
+```",True,1164.3649287816027,4.393907070159912,"[[0, 30, 26, 16, 12, 1, 7, 18, 22, 29, 14, 0], [0, 27, 8, 23, 2, 3, 6, 24, 0], [0, 20, 5, 25, 10, 15, 9, 11, 0], [0, 13, 21, 31, 19, 17, 28, 0], [0, 4, 0]]",2025-04-18 00:06:50
+A-n37-k5,0,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Incorporate distance, demand, and angular deviation from depot
+    depot_loc = ctx.locations[ctx.depot]
+    candidate_loc = ctx.locations[ctx.candidate]
+    
+    # Calculate vector from depot to current node and candidate node
+    current_node = ctx.vehicle_load  # Using load as proxy for current position
+    if current_node == 0:
+        return ctx.distance  # First node selection
+    
+    # Calculate angular deviation (simplified)
+    dx1 = candidate_loc[0] - depot_loc[0]
+    dy1 = candidate_loc[1] - depot_loc[1]
+    dx2 = current_node - depot_loc[0]  # Simplified approximation
+    dy2 = ctx.vehicle_load - depot_loc[1]  # Simplified approximation
+    
+    dot = dx1*dx2 + dy1*dy2
+    det = dx1*dy2 - dx2*dy1
+    angle = np.arctan2(det, dot)
+    
+    # Combined score with weights
+    return 0.7 * ctx.distance + 0.2 * ctx.demand + 0.1 * abs(angle)
+```",True,973.2084245844514,7.744605779647827,"[[0, 15, 34, 36, 29, 28, 31, 26, 30, 18, 25, 24, 23, 14, 17, 3, 0], [0, 21, 16, 7, 4, 33, 5, 13, 10, 9, 0], [0, 1, 12, 2, 19, 20, 11, 0], [0, 22, 6, 27, 8, 35, 0], [0, 32, 0]]",2025-04-18 00:08:05
+A-n37-k5,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance, demand and spatial proximity to current route
+    distance_score = ctx.distance / np.max(ctx.distance_matrix)
+    demand_score = ctx.demand / ctx.vehicle_capacity
+    remaining_capacity = (ctx.vehicle_capacity - ctx.vehicle_load) / ctx.vehicle_capacity
+    
+    # Weighted combination favoring distance first, then capacity utilization
+    return 0.6 * distance_score + 0.3 * (1 - remaining_capacity) + 0.1 * demand_score
+```",False,N/A,1.8239789009094238,[],2025-04-18 00:08:06
+A-n37-k5,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance, demand and capacity utilization with dynamic weights
+    distance_norm = ctx.distance / np.max(ctx.distance_matrix)
+    demand_norm = ctx.demand / ctx.vehicle_capacity
+    capacity_util = ctx.vehicle_load / ctx.vehicle_capacity
+    
+    # Dynamic weights based on current capacity utilization
+    if capacity_util < 0.5:
+        return 0.7 * distance_norm + 0.2 * demand_norm + 0.1 * capacity_util
+    else:
+        return 0.5 * distance_norm + 0.4 * (1 - demand_norm) + 0.1 * capacity_util
+```",False,N/A,1.8080909252166748,[],2025-04-18 00:08:08
+A-n37-k5,3,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance, demand and polar coordinate angle from depot
+    depot_loc = ctx.locations[ctx.depot]
+    candidate_loc = ctx.locations[ctx.candidate]
+    
+    # Calculate polar angle difference from depot
+    dx = candidate_loc[0] - depot_loc[0]
+    dy = candidate_loc[1] - depot_loc[1]
+    angle = np.arctan2(dy, dx)
+    
+    # Normalize components
+    distance_norm = ctx.distance / np.max(ctx.distance_matrix)
+    demand_norm = ctx.demand / ctx.vehicle_capacity
+    angle_norm = abs(angle) / np.pi  # Normalize to [0,1]
+    
+    # Weighted combination favoring clusters in similar directions
+    return 0.5 * distance_norm + 0.3 * demand_norm + 0.2 * angle_norm
+```",False,N/A,1.7942008972167969,[],2025-04-18 00:08:10
+A-n37-k5,4,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance, demand and spatial clustering with adaptive weights
+    distance_norm = ctx.distance / np.max(ctx.distance_matrix)
+    demand_norm = ctx.demand / ctx.vehicle_capacity
+    capacity_ratio = ctx.vehicle_load / ctx.vehicle_capacity
+    
+    # Adaptive weights based on remaining capacity
+    if capacity_ratio < 0.3:
+        # Early route: prioritize distance and clustering
+        depot_loc = ctx.locations[ctx.depot]
+        candidate_loc = ctx.locations[ctx.candidate]
+        cluster_score = np.linalg.norm(np.array(depot_loc) - np.array(candidate_loc))
+        return 0.5 * distance_norm + 0.3 * cluster_score + 0.2 * demand_norm
+    else:
+        # Later route: prioritize capacity utilization
+        return 0.4 * distance_norm + 0.5 * (1 - demand_norm) + 0.1 * capacity_ratio
+```",False,N/A,1.8407669067382812,[],2025-04-18 00:08:12
+A-n45-k6,0,"Here's the improved `construction_heuristic` function that considers both distance and demand factors:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance and normalized demand/remaining capacity
+    demand_factor = ctx.demand / (ctx.vehicle_capacity - ctx.vehicle_load + 1e-6)
+    return ctx.distance * (1 + demand_factor)
+```",True,1382.9094243113348,5.6973419189453125,"[[0, 28, 7, 32, 13, 20, 10, 9, 23, 0], [0, 26, 11, 19, 6, 44, 1, 35, 14, 2, 0], [0, 38, 25, 12, 39, 36, 42, 4, 41, 33, 0], [0, 29, 43, 5, 17, 18, 27, 0], [0, 3, 21, 8, 16, 22, 15, 0], [0, 31, 24, 37, 30, 34, 0], [0, 40, 0]]",2025-04-18 00:09:13
+A-n45-k6,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with demand and remaining capacity considerations
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load
+    demand_ratio = ctx.demand / (remaining_capacity + 1e-6)
+    angle_penalty = 1.0
+    
+    # Calculate angle between current->depot and current->candidate vectors if there are previous nodes
+    if len(ctx.locations) > 1 and ctx.vehicle_load > 0:
+        prev_node = ctx.locations[ctx.depot]
+        curr_node = ctx.locations[route[-1]] if 'route' in locals() else ctx.locations[ctx.depot]
+        candidate_node = ctx.locations[ctx.candidate]
+        
+        vec1 = [prev_node[0]-curr_node[0], prev_node[1]-curr_node[1]]
+        vec2 = [candidate_node[0]-curr_node[0], candidate_node[1]-curr_node[1]]
+        
+        dot = vec1[0]*vec2[0] + vec1[1]*vec2[1]
+        det = vec1[0]*vec2[1] - vec1[1]*vec2[0]
+        angle = np.arctan2(det, dot)
+        angle_penalty = 1.0 + abs(angle)/np.pi  # Penalize sharp turns
+        
+    return ctx.distance * (1 + demand_ratio) * angle_penalty
+```",True,1382.9094243113348,5.388800859451294,"[[0, 28, 7, 32, 13, 20, 10, 9, 23, 0], [0, 26, 11, 19, 6, 44, 1, 35, 14, 2, 0], [0, 38, 25, 12, 39, 36, 42, 4, 41, 33, 0], [0, 29, 43, 5, 17, 18, 27, 0], [0, 3, 21, 8, 16, 22, 15, 0], [0, 31, 24, 37, 30, 34, 0], [0, 40, 0]]",2025-04-18 00:09:19
+A-n45-k6,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with demand and capacity utilization
+    capacity_utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    return ctx.distance * (1 + capacity_utilization)
+```",True,1417.3337081634643,5.417217254638672,"[[0, 28, 7, 32, 13, 20, 10, 9, 23, 0], [0, 26, 11, 19, 6, 44, 1, 35, 14, 2, 0], [0, 41, 4, 42, 22, 15, 12, 25, 38, 0], [0, 29, 43, 5, 17, 18, 27, 0], [0, 31, 24, 37, 34, 40, 0], [0, 39, 36, 16, 8, 33, 21, 3, 0], [0, 30, 0]]",2025-04-18 00:09:24
+A-n45-k6,3,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with demand and remaining capacity considerations
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load
+    demand_ratio = ctx.demand / (remaining_capacity + 1e-6)
+    return ctx.distance * (1 + demand_ratio)
+```",True,1382.9094243113348,5.407161235809326,"[[0, 28, 7, 32, 13, 20, 10, 9, 23, 0], [0, 26, 11, 19, 6, 44, 1, 35, 14, 2, 0], [0, 38, 25, 12, 39, 36, 42, 4, 41, 33, 0], [0, 29, 43, 5, 17, 18, 27, 0], [0, 3, 21, 8, 16, 22, 15, 0], [0, 31, 24, 37, 30, 34, 0], [0, 40, 0]]",2025-04-18 00:09:30
+A-n45-k6,4,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with demand and spatial proximity to depot
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load
+    demand_factor = ctx.demand / (remaining_capacity + 1e-6)
+    depot_distance = np.linalg.norm(np.array(ctx.locations[ctx.candidate]) - np.array(ctx.locations[ctx.depot]))
+    return ctx.distance * (1 + demand_factor) + 0.3 * depot_distance
+```",True,1489.2437679225625,5.2403528690338135,"[[0, 28, 7, 32, 13, 20, 10, 9, 23, 0], [0, 26, 11, 19, 6, 44, 1, 35, 14, 2, 0], [0, 41, 4, 42, 22, 15, 12, 25, 38, 0], [0, 29, 43, 5, 17, 18, 27, 0], [0, 3, 30, 34, 37, 24, 31, 0], [0, 39, 36, 16, 8, 33, 21, 0], [0, 40, 0]]",2025-04-18 00:09:35
+A-n48-k7,0,"Here's the improved `construction_heuristic` function that incorporates both distance and demand factors:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance and normalized demand, with weight favoring distance
+    return 0.7 * ctx.distance + 0.3 * (ctx.demand / ctx.vehicle_capacity)
+```",True,1340.574160393411,5.616424083709717,"[[0, 14, 17, 7, 36, 32, 35, 44, 18, 0], [0, 23, 43, 31, 5, 1, 6, 22, 0], [0, 41, 16, 47, 2, 10, 29, 34, 0], [0, 40, 37, 3, 25, 19, 38, 12, 0], [0, 45, 27, 15, 8, 39, 26, 42, 0], [0, 28, 21, 30, 46, 13, 11, 4, 24, 9, 0], [0, 33, 20, 0]]",2025-04-18 00:10:29
+A-n48-k7,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance, demand utilization and polar angle for better spatial distribution
+    angle = np.arctan2(ctx.locations[ctx.candidate][1] - ctx.locations[ctx.depot][1],
+                      ctx.locations[ctx.candidate][0] - ctx.locations[ctx.depot][0])
+    normalized_angle = (angle + np.pi) / (2 * np.pi)  # Normalize to [0,1]
+    return (0.5 * ctx.distance + 
+            0.3 * (ctx.demand / ctx.vehicle_capacity) + 
+            0.2 * normalized_angle)
+```",True,1474.752373769909,5.835882186889648,"[[0, 14, 17, 7, 36, 32, 35, 44, 18, 0], [0, 34, 22, 1, 5, 12, 31, 43, 23, 0], [0, 41, 16, 47, 2, 10, 29, 42, 0], [0, 40, 45, 27, 15, 8, 39, 3, 0], [0, 6, 38, 25, 19, 37, 26, 0], [0, 28, 21, 30, 46, 13, 11, 4, 24, 9, 0], [0, 33, 20, 0]]",2025-04-18 00:10:35
+A-n48-k7,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with demand utilization ratio, prioritizing nodes that better fill remaining capacity
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load
+    utilization_ratio = ctx.demand / remaining_capacity if remaining_capacity > 0 else float('inf')
+    return ctx.distance * (1 + 0.5 * utilization_ratio)
+```",True,1414.0109953181675,5.627713203430176,"[[0, 7, 42, 29, 34, 28, 16, 47, 41, 17, 14, 0], [0, 18, 44, 35, 40, 45, 36, 32, 31, 0], [0, 23, 43, 5, 1, 6, 22, 0], [0, 12, 38, 25, 19, 37, 3, 9, 0], [0, 2, 10, 33, 21, 30, 13, 24, 0], [0, 27, 15, 8, 39, 26, 20, 0], [0, 11, 4, 46, 0]]",2025-04-18 00:10:41
+A-n48-k7,3,"Here's an improved version of the `construction_heuristic` function that balances distance, demand, and vehicle capacity utilization:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with demand and capacity utilization
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load
+    capacity_utilization = ctx.demand / remaining_capacity if remaining_capacity > 0 else float('inf')
+    return ctx.distance * (1 + 0.4 * capacity_utilization) + 0.2 * ctx.demand
+```",True,1539.6284117704863,6.022744178771973,"[[0, 18, 44, 35, 32, 22, 38, 7, 34, 40, 17, 14, 0], [0, 3, 6, 1, 5, 31, 43, 23, 0], [0, 24, 13, 30, 21, 29, 28, 16, 47, 41, 0], [0, 12, 36, 19, 37, 26, 0], [0, 45, 27, 15, 8, 39, 20, 0], [0, 42, 4, 46, 33, 10, 2, 0], [0, 9, 11, 25, 0]]",2025-04-18 00:10:47
+A-n48-k7,4,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with demand and capacity utilization, with dynamic weighting
+    remaining_capacity = ctx.vehicle_capacity - ctx.vehicle_load
+    capacity_factor = 1 - (remaining_capacity / ctx.vehicle_capacity) if ctx.vehicle_capacity > 0 else 1
+    return (0.6 * ctx.distance + 
+            0.3 * (ctx.demand / ctx.vehicle_capacity) + 
+            0.1 * capacity_factor)
+```",True,1340.574160393411,5.619457006454468,"[[0, 14, 17, 7, 36, 32, 35, 44, 18, 0], [0, 23, 43, 31, 5, 1, 6, 22, 0], [0, 41, 16, 47, 2, 10, 29, 34, 0], [0, 40, 37, 3, 25, 19, 38, 12, 0], [0, 45, 27, 15, 8, 39, 26, 42, 0], [0, 28, 21, 30, 46, 13, 11, 4, 24, 9, 0], [0, 33, 20, 0]]",2025-04-18 00:10:52
+A-n53-k7,0,"Here's the improved `construction_heuristic` function that considers both distance and demand factors:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with normalized demand and remaining capacity
+    distance_weight = 0.7
+    demand_weight = 0.2
+    capacity_weight = 0.1
+    
+    normalized_demand = ctx.demand / ctx.vehicle_capacity
+    remaining_capacity = (ctx.vehicle_capacity - ctx.vehicle_load) / ctx.vehicle_capacity
+    
+    return (distance_weight * ctx.distance + 
+            demand_weight * normalized_demand + 
+            capacity_weight * (1 - remaining_capacity))
+```",True,1385.2411111299318,7.333185911178589,"[[0, 1, 27, 8, 46, 29, 44, 30, 22, 28, 4, 25, 0], [0, 31, 20, 6, 18, 38, 35, 51, 39, 0], [0, 33, 3, 5, 14, 34, 7, 0], [0, 47, 9, 17, 41, 24, 11, 52, 0], [0, 49, 37, 2, 36, 50, 43, 23, 19, 15, 45, 12, 0], [0, 21, 13, 16, 32, 48, 40, 0], [0, 26, 10, 42, 0]]",2025-04-18 00:11:51
+A-n53-k7,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with demand and capacity utilization
+    distance_factor = ctx.distance / np.max(ctx.locations)  # Normalized distance
+    demand_factor = ctx.demand / ctx.vehicle_capacity
+    capacity_factor = 1 - (ctx.vehicle_capacity - ctx.vehicle_load - ctx.demand) / ctx.vehicle_capacity
+    
+    return 0.6 * distance_factor + 0.3 * demand_factor + 0.1 * capacity_factor
+```",True,1417.2466535557662,9.192543983459473,"[[0, 1, 51, 29, 44, 22, 28, 4, 7, 9, 41, 24, 11, 52, 34, 25, 39, 0], [0, 20, 6, 18, 40, 26, 10, 31, 0], [0, 3, 5, 14, 21, 13, 19, 0], [0, 27, 8, 46, 30, 49, 36, 50, 2, 0], [0, 45, 23, 15, 32, 48, 12, 47, 0], [0, 33, 35, 38, 37, 0], [0, 17, 16, 42, 43, 0]]",2025-04-18 00:12:00
+A-n53-k7,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with demand and spatial proximity to depot
+    distance_factor = ctx.distance
+    demand_factor = ctx.demand / ctx.vehicle_capacity
+    depot_distance = np.linalg.norm(ctx.locations[ctx.depot] - ctx.locations[ctx.candidate])
+    
+    # Weighted combination favoring closer nodes with moderate demand
+    return 0.5 * distance_factor + 0.3 * demand_factor + 0.2 * depot_distance
+```",False,N/A,1.8455727100372314,[],2025-04-18 00:12:02
+A-n53-k7,3,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with demand and remaining capacity ratio
+    distance_factor = ctx.distance / np.max(ctx.locations)
+    demand_factor = ctx.demand / ctx.vehicle_capacity
+    capacity_ratio = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    # Prioritize closer nodes with higher demand that better utilize capacity
+    return 0.5 * distance_factor + 0.3 * demand_factor + 0.2 * capacity_ratio
+```",True,1379.6683830138736,10.439547777175903,"[[0, 1, 51, 29, 44, 22, 28, 4, 7, 9, 41, 24, 11, 52, 34, 25, 39, 0], [0, 31, 20, 6, 18, 40, 49, 36, 50, 23, 19, 15, 32, 45, 0], [0, 3, 5, 14, 13, 21, 0], [0, 27, 8, 30, 37, 2, 12, 0], [0, 26, 48, 16, 17, 47, 0], [0, 33, 35, 38, 46, 0], [0, 10, 43, 42, 0]]",2025-04-18 00:12:12
+A-n53-k7,4,"Here's an improved version of the `construction_heuristic` function that considers multiple factors while maintaining simplicity:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance with demand and capacity utilization, with dynamic weights
+    distance_norm = ctx.distance / np.max(ctx.distance_matrix)
+    demand_norm = ctx.demand / ctx.vehicle_capacity
+    capacity_util = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    # Dynamic weights based on current load
+    if ctx.vehicle_load < 0.5 * ctx.vehicle_capacity:
+        return 0.4 * distance_norm + 0.5 * demand_norm + 0.1 * capacity_util
+    else:
+        return 0.6 * distance_norm + 0.3 * demand_norm + 0.1 * capacity_util
+```",False,N/A,1.9328629970550537,[],2025-04-18 00:12:14
+A-n63-k10,0,"Here's the improved `construction_heuristic` function that incorporates both distance and demand factors while maintaining feasibility:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine normalized distance and demand factors with vehicle capacity consideration
+    distance_factor = ctx.distance / np.max(ctx.distance_matrix)
+    demand_factor = ctx.demand / ctx.vehicle_capacity
+    capacity_utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    # Favor nodes that better utilize vehicle capacity without exceeding it
+    return (0.7 * distance_factor + 0.3 * (1 - demand_factor)) * (1 + 0.5 * capacity_utilization)
+```",False,N/A,1.928546667098999,[],2025-04-18 00:13:19
+A-n63-k10,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance, demand and angular deviation factors
+    distance_factor = ctx.distance / np.max(ctx.distance_matrix)
+    demand_factor = ctx.demand / ctx.vehicle_capacity
+    capacity_utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    # Calculate angular deviation from depot-candidate vector
+    depot_loc = ctx.locations[ctx.depot]
+    last_loc = ctx.locations[ctx.candidate]
+    vec1 = np.array(depot_loc) - np.array(last_loc)
+    vec2 = np.array(last_loc) - np.array(ctx.locations[ctx.candidate])
+    angle = np.arccos(np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2)))
+    
+    # Weighted combination favoring closer nodes with higher demand that better utilize capacity
+    return (0.5 * distance_factor + 
+            0.3 * (1 - demand_factor) + 
+            0.2 * (1 - angle/np.pi)) * (1 + 0.2 * capacity_utilization)
+```",False,N/A,1.8587720394134521,[],2025-04-18 00:13:21
+A-n63-k10,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance and demand with capacity utilization
+    distance_factor = ctx.distance / np.max(ctx.distance_matrix)
+    demand_factor = ctx.demand / ctx.vehicle_capacity
+    capacity_utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    # Favor nodes that better utilize capacity while minimizing detour
+    return (0.6 * distance_factor + 0.4 * (1 - demand_factor)) * (1 + 0.3 * capacity_utilization)
+```",False,N/A,1.842379093170166,[],2025-04-18 00:13:22
+A-n63-k10,3,"Here's an improved version of the `construction_heuristic` function that balances distance, demand, and vehicle capacity utilization:
+
+```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Normalize factors
+    distance_factor = ctx.distance / np.max(ctx.distance_matrix)
+    demand_factor = ctx.demand / ctx.vehicle_capacity
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    # Weighted combination favoring closer nodes with higher demand that better utilize capacity
+    return (0.6 * distance_factor + 
+            0.3 * (1 - demand_factor) + 
+            0.1 * (1 - utilization))
+```",False,N/A,1.8556568622589111,[],2025-04-18 00:13:24
+A-n63-k10,4,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance, demand and spatial clustering factors
+    distance_factor = ctx.distance / np.max(ctx.distance_matrix)
+    demand_factor = ctx.demand / ctx.vehicle_capacity
+    capacity_utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    # Calculate spatial clustering score based on depot-candidate vector
+    depot_loc = ctx.locations[ctx.depot]
+    candidate_loc = ctx.locations[ctx.candidate]
+    last_loc = ctx.locations[ctx.vehicle_load] if ctx.vehicle_load > 0 else depot_loc
+    
+    vec1 = np.array(last_loc) - np.array(depot_loc)
+    vec2 = np.array(candidate_loc) - np.array(last_loc)
+    angle = np.arccos(np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2)))
+    
+    # Weighted combination with adjusted coefficients
+    return (0.5 * distance_factor + 
+            0.3 * (1 - demand_factor) + 
+            0.2 * (1 - angle/np.pi)) * (1 + 0.1 * capacity_utilization)
+```",False,N/A,1.844895839691162,[],2025-04-18 00:13:26
+A-n80-k10,0,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance and demand ratio with capacity utilization
+    distance_weight = 0.7
+    demand_weight = 0.3
+    
+    normalized_distance = ctx.distance / np.max(ctx.distance_matrix)
+    capacity_utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    # Penalize nodes that would make the vehicle nearly full
+    capacity_penalty = 1.0 + 2.0 * (capacity_utilization ** 2)
+    
+    return (distance_weight * normalized_distance + 
+            demand_weight * (ctx.demand / ctx.vehicle_capacity)) * capacity_penalty
+```",False,N/A,2.1317028999328613,[],2025-04-18 00:14:45
+A-n80-k10,1,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance, demand, and angular similarity
+    distance_weight = 0.6
+    demand_weight = 0.2
+    angle_weight = 0.2
+    
+    # Normalize distance
+    normalized_dist = ctx.distance / np.max(ctx.distance_matrix)
+    
+    # Calculate angular similarity between current->candidate and depot->candidate vectors
+    if len(ctx.locations) > 1:
+        current_pos = ctx.locations[ctx.depot]
+        last_pos = ctx.locations[ctx.route[-1]] if len(ctx.route) > 1 else current_pos
+        candidate_pos = ctx.locations[ctx.candidate]
+        
+        vec1 = np.array(last_pos) - np.array(current_pos)
+        vec2 = np.array(candidate_pos) - np.array(current_pos)
+        cosine_sim = np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2) + 1e-8)
+    else:
+        cosine_sim = 1.0
+    
+    # Capacity utilization factor (penalize near-full loads)
+    capacity_factor = 1.0 + (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    return (distance_weight * normalized_dist + 
+            demand_weight * (ctx.demand / ctx.vehicle_capacity) +
+            angle_weight * (1 - cosine_sim)) * capacity_factor
+```",False,N/A,1.8352437019348145,[],2025-04-18 00:14:47
+A-n80-k10,2,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Balance distance, demand and capacity utilization with exponential penalty
+    distance_factor = ctx.distance / np.max(ctx.distance_matrix)
+    demand_factor = ctx.demand / ctx.vehicle_capacity
+    utilization = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    # Exponential penalty for high utilization to avoid overloading vehicles
+    penalty = np.exp(5 * (utilization - 0.8)) if utilization > 0.8 else 1.0
+    
+    return (0.6 * distance_factor + 0.4 * demand_factor) * penalty
+```",False,N/A,1.8306810855865479,[],2025-04-18 00:14:48
+A-n80-k10,3,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Combine distance, demand and spatial clustering
+    distance_factor = ctx.distance / np.max(ctx.distance_matrix)
+    demand_ratio = ctx.demand / ctx.vehicle_capacity
+    capacity_util = (ctx.vehicle_load + ctx.demand) / ctx.vehicle_capacity
+    
+    # Spatial clustering factor (prefer nodes in same direction)
+    if len(ctx.locations) > 1:
+        depot_pos = np.array(ctx.locations[ctx.depot])
+        last_pos = np.array(ctx.locations[ctx.route[-1]]) if len(ctx.route) > 1 else depot_pos
+        cand_pos = np.array(ctx.locations[ctx.candidate])
+        
+        vec1 = last_pos - depot_pos
+        vec2 = cand_pos - depot_pos
+        angle_factor = np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2) + 1e-8)
+    else:
+        angle_factor = 1.0
+    
+    # Penalize near-full capacity
+    capacity_penalty = 1.0 + 3.0 * max(0, capacity_util - 0.7)**2
+    
+    return (0.5 * distance_factor + 
+            0.3 * demand_ratio + 
+            0.2 * (1 - angle_factor)) * capacity_penalty
+```",False,N/A,1.8631680011749268,[],2025-04-18 00:14:50
+A-n80-k10,4,"```python
+@funsearch.evolve
+def construction_heuristic(ctx: ConstructionContext) -> float:
+    # Dynamic weights based on current vehicle load
+    load_ratio = ctx.vehicle_load / ctx.vehicle_capacity
+    
+    # When vehicle is empty, prioritize distance
+    if load_ratio < 0.3:
+        distance_weight = 0.8
+        demand_weight = 0.2
+    # When vehicle is partially loaded, balance factors
+    elif load_ratio < 0.7:
+        distance_weight = 0.5
+        demand_weight = 0.5
+    # When vehicle is nearly full, prioritize demand
+    else:
+        distance_weight = 0.2
+        demand_weight = 0.8
+
+    # Normalized components
+    normalized_dist = ctx.distance / np.max(ctx.distance_matrix)
+    normalized_demand = ctx.demand / ctx.vehicle_capacity
+    
+    # Capacity penalty becomes stronger as vehicle fills up
+    capacity_penalty = 1.0 + 3.0 * (load_ratio ** 2)
+    
+    return (distance_weight * normalized_dist + 
+            demand_weight * normalized_demand) * capacity_penalty
+```",False,N/A,1.8390889167785645,[],2025-04-18 00:14:52
