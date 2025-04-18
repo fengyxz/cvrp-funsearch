@@ -1,8 +1,8 @@
-absl==0.0
-astunparse==1.6.3
-config==0.5.1
-numpy==2.2.4
-openai==1.75.0
-python-dotenv==1.1.0
-scipy==1.15.2
-vrplib==1.5.1
+absl-py>=2.2
+astunparse>=1.6.3
+config>=0.5.1
+numpy>=2.0.0
+openai>=1.75.0
+python-dotenv>=1.1.0
+scipy>=1.10.0
+vrplib>=1.5.1
