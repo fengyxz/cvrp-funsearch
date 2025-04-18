@@ -7,7 +7,7 @@ import llm_model
 from dotenv import load_dotenv
 import os
 from  evaluator import Evaluator
-from prompt_config import ERROR_INFO,USER_PROMPT_ACO,USER_PROMPT,USER_PROMPT_PARAMS, read_template_file
+from prompt_config import ERROR_INFO,USER_PROMPT_ACO,USER_PROMPT,USER_PROMPT_GA, read_template_file
 from prompt_generator import PromptGenerator
 from w2csv import save_results_to_csv  
 
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     CODE_TEMPLATE = read_template_file('cvrp-funsearch/cvrp/spec/GA_template.txt')
     # dataset_names = ['A-n53-k7','A-n63-k10','P-n65-k10',"A-n80-k10","E-n76-k14"]
     # dataset_names = ['X-n110-k13','X-n115-k10','X-n120-k6','X-n139-k10'] # large
-    dataset_names = ['A-n32-k5','A-n37-k5','A-n45-k6','A-n48-k7','A-n53-k7','A-n63-k10','A-n80-k10']
+    dataset_names = ['A-n32-k5','A-n37-k5','A-n45-k6','A-n48-k7','A-n53-k7','A-n63-k10','A-n80-k10']# small
     # dataset_names = ['A-n45-k6'] #
     results = []
 
@@ -58,9 +58,9 @@ if __name__ == '__main__':
         data = read_cvrp_data(f'cvrp-funsearch/cvrp/data/small/{dataset_name}.vrp')
         input = DataSet(dataset_name,data)
         # 加载Prompt生成器
-        prompt_generator = PromptGenerator(USER_PROMPT_PARAMS,CODE_TEMPLATE,ERROR_INFO,"")    
+        prompt_generator = PromptGenerator(USER_PROMPT_GA,CODE_TEMPLATE,ERROR_INFO,"")    
         # 加载evaluator
-        evaluator = Evaluator(CODE_TEMPLATE,'fitness1','evaluate',input)
+        evaluator = Evaluator(CODE_TEMPLATE,'fitness','evaluate',input)
         # 运行 LLM获得回答
         prompt = prompt_generator.generate(input.data)
         responses = llm.draw_samples(prompt)

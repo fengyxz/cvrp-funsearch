@@ -121,7 +121,7 @@ def solve(data: dict) -> List[List[int]]:
 
     population_size = 500
     generations = 1000
-    mutation_rate = 0.1
+    mutation_rate = 0.3
     elite_size = 10
     tournament_size = 5
 
