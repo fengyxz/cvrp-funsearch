@@ -106,13 +106,3 @@ Simple explanation:
 4. Select the Best Solution: The best-performing solution from the score ranking is selected as the Final Best Answer.
 
 The core of this process is to generate multiple code solutions using the LLM, execute and evaluate them in a sandbox, and finally choose the optimal solution.
-
-## Dataset
-
-We choose small & medium sets from SetA.
-
-<img src="https://github.com/user-attachments/assets/c94f8976-ff90-4f6a-b4c1-8ea1761a6172" width="500px">
-
-We choose the large set from SetX.
-
-<img src="https://github.com/user-attachments/assets/9915d28d-a4e2-4e26-9f7e-7702784f5996" width="500px">
