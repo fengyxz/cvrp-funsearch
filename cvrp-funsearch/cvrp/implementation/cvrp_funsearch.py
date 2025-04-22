@@ -1,4 +1,3 @@
-
 import re
 import logging
 import time
@@ -19,7 +18,7 @@ def read_cvrp_data(file_name, ending='.vrp'):
         else:
             print(f'Failed to read {file_name}')
     data = {}
-    # 基础参数设置
+    # Basic parameter settings
     data["vehicle_capacity"] = instance['capacity']
     data["num_vehicles"] = int(re.search(r'k(\d+)', instance['name']).group(1))
     data["depot"] = 0
@@ -34,39 +33,43 @@ class DataSet:
         self.name = name
         self.data = data
     
-# ----------------TEST------------------
 if __name__ == '__main__':
-    load_dotenv()  # 自动加载当前目录的 .env 文件
+    load_dotenv()  # Automatically load the .env file in the current directory
 
     # class_config = config.ClassConfig(llm_class=LLMAPI, sandbox_class=Sandbox)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
     api_key =os.getenv("API_KEY")
+    # === Step 1: Load the template for the solver ===
     CODE_TEMPLATE = read_template_file('cvrp-funsearch/cvrp/spec/LNS_template.txt')
-    # dataset_names = ['X-n110-k13','X-n115-k10','X-n120-k6','X-n139-k10'] # large
-    dataset_names = ['A-n32-k5','A-n37-k5','A-n45-k6','A-n48-k7','A-n53-k7','A-n63-k10','A-n80-k10']# small
-    # dataset_names = ['A-n45-k6'] #
-    results = []
 
-    # 加载LLM-model
+    # === Step 2: Specify datasets to evaluate ===
+    # Available options:
+    # dataset_names = ['X-n110-k13','X-n115-k10','X-n120-k6','X-n139-k10']  # large instances
+    dataset_names = ['A-n32-k5','A-n37-k5','A-n45-k6','A-n48-k7','A-n53-k7','A-n63-k10','A-n80-k10']  # small instances
+    # dataset_names = ['A-n45-k6']  # test a single dataset
+
+    results = []  # Store evaluation results
+
+    # === Step 3: Initialize and run the solver for each dataset ===
     for dataset_name in dataset_names:
-        model = llm_model.DsModel(api_key)
-        # 设置采样次数
-        sample_size = 1
-        llm = llm_model.LLM(sample_size,model)
-        # 读入数据
+        model = llm_model.DsModel(api_key)  # Load the LLM backend with API key
+        sample_size = 5  # Number of candidate solutions to generate
+        llm = llm_model.LLM(sample_size, model)
+
+        # Load CVRP data file based on dataset name
         data = read_cvrp_data(f'cvrp-funsearch/cvrp/data/small/{dataset_name}.vrp')
         input = DataSet(dataset_name,data)
-        # 加载Prompt生成器
+        # Load the Prompt generator
         prompt_generator = PromptGenerator(USER_PROMPT,CODE_TEMPLATE,ERROR_INFO,"")    
-        # 加载evaluator
+        # Load the evaluator
         evaluator = Evaluator(CODE_TEMPLATE,'construction_heuristic','evaluate',input)
-        # 运行 LLM获得回答
+        # Run the LLM to get responses
         prompt = prompt_generator.generate(input.data)
         responses = llm.draw_samples(prompt)
        
-        # 评估与保存结果
+        # Evaluate and save the results
         for idx, response in enumerate(responses):
-            # 调用evaluator
+            # Call the evaluator
             print("---------Answer[ from LLM ]------------")
             is_success, total_distance, routes, run_time = evaluator.analyse(response)
             
@@ -81,4 +84,3 @@ if __name__ == '__main__':
                 "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
             })
     save_results_to_csv(results)
-

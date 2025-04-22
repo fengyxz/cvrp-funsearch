@@ -3,7 +3,7 @@ import uuid
 import os
 import logging
 
-# 配置日志格式和日志级别
+# Configure the log format and log level
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -13,52 +13,52 @@ logging.basicConfig(
 
 def save_results_to_csv(results, folder="results"):
     """
-    保存实验评估结果到 CSV 文件。
+    Save the experimental evaluation results to a CSV file.
 
-    :param results: List[Dict]，每次实验的结果列表，每个结果是一个字典。
-    :param folder: str，可选，保存文件的文件夹，默认是 "results" 文件夹。
+    :param results: List[Dict], a list of results for each experiment, where each result is a dictionary.
+    :param folder: str, optional, the folder to save the file, the default is the "results" folder.
     """
-    # 检查结果是否为空
+    # Check if the results are empty
     if not results:
         logging.warning("No results to save. The results list is empty.")
         return
 
-    # 从结果字典中提取字段名
+    # Extract the field names from the result dictionary
     fieldnames = results[0].keys()
 
-    # 创建保存文件的文件夹（如果不存在）
+    # Create the folder to save the file (if it doesn't exist)
     if not os.path.exists(folder):
         os.makedirs(folder)
         logging.info(f"Created directory: {folder}")
 
-    # 使用 uuid 生成文件名
+    # Generate the file name using uuid
     filename = f"{folder}/results_{uuid.uuid4()}.csv"
 
-    # 开始写入文件
+    # Start writing to the file
     logging.info("Starting to write results to CSV file...")
     try:
         with open(filename, mode="w", newline="", encoding="utf-8") as file:
             writer = csv.DictWriter(file, fieldnames=fieldnames)
-            # 写入表头
+            # Write the header
             writer.writeheader()
-            # 写入数据行
+            # Write the data rows
             writer.writerows(results)
 
-        # 写入完成
+        # Finished writing
         logging.info(f"Results successfully saved to {filename}")
     except Exception as e:
         logging.error(f"An error occurred while writing to the file: {e}")
         raise
 
 
-# 示例用法
+# Example usage
 if __name__ == "__main__":
-    # 实验的评估结果，每个结果是一个字典
+    # Evaluation results of the experiment, each result is a dictionary
     results = [
         {"is_success": True, "distance": 5.5},
         {"is_success": False, "distance": 12.3},
         {"is_success": True, "distance": 7.8}
     ]
 
-    # 保存结果到 CSV 文件
+    # Save the results to a CSV file
     save_results_to_csv(results)

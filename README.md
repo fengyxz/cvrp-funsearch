@@ -5,6 +5,7 @@ Our project focuses on the Capacitated Vehicle Routing Problem (CVRP), a popular
 The approach combines deep reasoning through chain of thought to automate program generation and search within the function space. RAG ensures precise knowledge retrieval, providing a theoretical foundation and reasoning framework, while the chain of thought decomposes CVRP into interconnected subproblems for stepwise optimization, tackling single-objective challenges effectively.
 
 **Our goal is simply to minimize the path length, and the following constraints must be satisfied at the same time:**
+
 - All customers are served and each customer is visited only once.
 - The capacity of each vehicle is not overloaded.
 - No vehicle takes the same path twice.
@@ -14,30 +15,69 @@ The approach combines deep reasoning through chain of thought to automate progra
 cvrp-funsearch/
 
 ```
-├── LLM-test
-│   └── deepseek
-├── Other_algorithms
-│   ├── fig
-│   └── ortools
-└── cvrp
-    ├── data
-    │   ├── cvrp
-    │   │   ├── large
-    │   │   ├── medium
-    │   │   └── small
-    │   └── tsp
-    ├── implementation
-    ├── new_data
-    └── spec
+│   ├── cvrp
+│   │   ├── __init__.py
+│   │   ├── data
+│   │   │   ├── large
+│   │   │   │   ├── ...
+│   │   │   └── small
+│   │   │       ├── ...
+│   │   ├── implementation
+│   │   │   ├── README_simple-test.md
+│   │   │   ├── __init__.py
+│   │   │   ├── code_manipulation.py
+│   │   │   ├── cvrp_funsearch.py
+│   │   │   ├── evaluator.py
+│   │   │   ├── llm_model.py
+│   │   │   ├── programs_database.py
+│   │   │   ├── prompt_config.py
+│   │   │   ├── prompt_generator.py
+│   │   │   ├── sampler.py
+│   │   │   ├── sand_box.py
+│   │   │   ├── sand_box_test.py
+│   │   │   └── w2csv.py
+│   │   └── spec
+│   │       ├── ...
 ```
 
 Some important directories:
 
-- `LLM-test/deepseek`: Using DeepSeek API to do some tests.
+- `data`: Our ddatasets
 
-- `Other_algorithms/fig/ortools`: Using ortools(Google) to do tests.
+- `spec`: Specification for different alforithm
 
-- `cvrp/`: Related to solving CVRP, like data(small, medium, large), solution, code, specification.
+- `cvrp/`: Source Code related to solving CVRP solution.
+
+## How to use❕
+
+### ✅ 1. Configure the API Key
+
+Create a `.env` file in the root directory of your project and add `ds` API key to it（in our comment in project）.
+
+```shell
+API_KEY = "..."
+```
+
+### ✅ Modify the `cvrp_funsearch.py` Script
+
+**2.1 Set the dataset(s) you want to evaluate:**  
+Update the line
+
+```python
+dataset_names = ['dataset_name']
+```
+
+with the dataset names you wish to test.
+
+**2.2 Update the template and dataset paths:**  
+Ensure the template file path and dataset file paths point to the correct folders (e.g., `small` or `large`).
+
+**2.3 Set the results output path:**  
+Make sure the results are stored in a valid output path (e.g., `results = []` or a designated file location).
+
+### ✅ Run the Script
+
+Execute the script to begin evaluating the selected CVRP dataset(s).
 
 ## Design
 
@@ -67,84 +107,7 @@ Simple explanation:
 
 The core of this process is to generate multiple code solutions using the LLM, execute and evaluate them in a sandbox, and finally choose the optimal solution.
 
-## Performance comparison of various algorithms
-
-We have tried existing algorithms and also made preliminary attempts.
-
-- 2-opt: A local search algorithm that iteratively improves a tour by swapping two edges to reduce the overall route length.
-
-- LNS (Large Neighborhood Search): A heuristic method that destroys and rebuilds parts of a solution to explore a larger search space for better optimization.
-
-- Tabu Search: An iterative improvement algorithm that uses memory structures to avoid cycling back to recently visited solutions, helping it escape local optima.
-
-- SA (Simulated Annealing): A probabilistic technique that accepts occasional worse solutions to avoid local optima and gradually converges towards a global optimum.
-
-- Ortools: Google’s open-source optimization suite that provides powerful solvers and tools for tackling various combinatorial optimization problems.
-
-### Small Sets
-
-table：
-
-| Instance  | 2-opt | LNS  | TabuS | SA   | Ortools |
-|-----------|------:|-----:|------:|-----:|--------:|
-| A-n32-k5  |  1168 |  849 |   953 |  960 |     782 |
-| A-n37-k5  |   892 |  666 |   766 |  762 |     656 |
-| A-n48-k7  |  1439 | 1101 |  1225 | 1229 |    1051 |
-| P-n50-k10 |   881 |  719 |   759 |  748 |     703 |
-
-graph:
-
-<img src="https://github.com/user-attachments/assets/d2d8af31-214a-4366-994b-ce8a331e31af" width="500px">
-
-### Medium Sets
-
-table:
-
-| Instance       | 2-opt | LNS  | TabuS | SA   | Ortools |
-|---------------|------:|-----:|------:|-----:|--------:|
-| A-n45-k6      |  1265 |  937 |  1126 | 1047 |    1034 |
-| A-n53-k7      |  1381 | 1016 |  1185 | 1191 |    1028 |
-| A-n63-k10     |  1864 | 1400 |  1668 | 1564 |    1335 |
-| P-n65-k10     |  1126 |  817 |   883 |  861 |     785 |
-| P-n60-k10     |   956 |  811 |   797 |  810 |     759 |
-| A-n80-k10     |  2155 | 1834 |  1913 | 1931 |    1831 |
-| E-n76-k14     |  1344 | 1046 |  1157 | 1148 |    1045 |
-| E-n101-k14.vrp |  1472 | 1131 |  1341 | 1256 |    1083 |
-
-graph:
-
-<img src="https://github.com/user-attachments/assets/584ce12b-938c-4700-b70c-2c5ae506512b" width="500px">
-
-### Large Sets
-
-table:
-
-| Instance    | 2-opt | LNS  | TabuS | SA   | Ortools |
-|------------|------:|-----:|------:|-----:|--------:|
-| X-n120-k6  | 15188 | 14294 | 15794 | 15398 | 13995 |
-| X-n115-k10 | 17562 | 13958 | 15792 | 14870 | 13379 |
-| X-n139-k10 | 17218 | 14905 | 15931 | 15409 | 14633 |
-| X-n110-k13 | 19320 | 15867 | 16845 | 16565 | 15550 |
-
-graph:
-
-<img src="https://github.com/user-attachments/assets/2ecacba0-78ce-42f6-a652-b953aaf024f7" width="500px">
-
-### Sloved
-
-table:
-
-| Instance         | 2-opt | LNS  | TabuS | SA   | Ortools |
-|-----------------|------:|-----:|------:|-----:|--------:|
-| A-n45-k6.vrp    |  1265 |  937 |  1126 | 1047 |    1034 |
-| P-n60-k10.vrp   |   956 |  811 |   797 |  810 |     759 |
-| E-n101-k14.vrp  |  1472 | 1131 |  1341 | 1256 |    1083 |
-
-graph:
-
-<img src="https://github.com/user-attachments/assets/65cfed50-a869-4029-a326-90bdcc4ca18c" width="500px">
-
-## Datasets
+## Dataset
 
 We choose small & medium sets from SetA.
 

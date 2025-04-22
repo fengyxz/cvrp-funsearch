@@ -63,7 +63,7 @@ def read_template_file(file_path):
             print(f"Error: unknown {e}。")
             return ""
         
-# 需要避免的错误
+# Avoid Error Info
 error_info_arr = ['Exception has occurred: SyntaxError']
 # [
 #     "AttributeError: 'ConstructionContext' object has no attribute 'distance_matrix'",

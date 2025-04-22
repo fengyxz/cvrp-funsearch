@@ -12,7 +12,6 @@ class BaseLLMModel:
         raise NotImplementedError("need to complete!")
     
 
-# 定义调用 GPT 的子类
 class GPTModel(BaseLLMModel):
     def __init__(self, api_key, model="gpt-4o"):
         super().__init__()

@@ -23,7 +23,7 @@ def read_cvrp_data(file_name, ending='.vrp'):
         else:
             print(f'Failed to read {file_name}')
     data = {}
-    # 基础参数设置
+    # basic parameters
     data["vehicle_capacity"] = instance['capacity']
     data["num_vehicles"] = int(re.search(r'k(\d+)', instance['name']).group(1))
     data["depot"] = 0
